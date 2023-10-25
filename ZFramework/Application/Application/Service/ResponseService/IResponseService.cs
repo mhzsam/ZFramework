@@ -14,7 +14,7 @@ namespace Application.Service.ResponseService
 
         public RessponseModel SuccssedWithResult(object result);
 
-        public RessponseModel SuccssedWithPagination(object result,int total,int pageNumber,int pageRowNumber);
+        public RessponseModelWithPagination SuccssedWithPagination(object result,int total,int pageNumber,int pageRowNumber);
 
         public RessponseModel Fail(HttpStatusCode httpStatusCode, string message);
 

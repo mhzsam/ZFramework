@@ -44,7 +44,7 @@ namespace Application.SetUp
                       ErrorDescription = modelError.Value.Errors.FirstOrDefault().ErrorMessage
                   }).ToList();
 
-                   var model = new RessponseModel(false, null, null, errorRecordList, HttpStatusCode.BadRequest);
+                   var model = new RessponseModel(false, null, errorRecordList, HttpStatusCode.BadRequest);
 
 
                    return new BadRequestObjectResult(model);

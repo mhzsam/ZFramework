@@ -12,6 +12,7 @@ namespace Presentation.Controllers
 
         public BaseController(IResponseService res)
         {
+
             responseGenerator = res;
         }
 

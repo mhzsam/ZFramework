@@ -10,9 +10,15 @@ namespace Application.DTO.ResponseModel
 {
     public record class RessponseModel(
         bool IsSuccssed, 
-        object Result,        
-        Pagination Pagination,
+        object Result, 
         dynamic ErrorMessage, 
+        HttpStatusCode ResponseCode);
+
+    public record class RessponseModelWithPagination(
+        bool IsSuccssed,
+        object Result,
+        Pagination Pagination,
+        dynamic ErrorMessage,
         HttpStatusCode ResponseCode);
 
 

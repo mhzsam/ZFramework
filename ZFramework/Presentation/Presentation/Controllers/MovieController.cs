@@ -1,4 +1,5 @@
 ﻿using Application.DTO.ResponseModel;
+using Application.Helper;
 using Application.Service.MoviesService;
 using Application.Service.ResponseService;
 using Application.Service.UserService;
@@ -18,12 +19,12 @@ namespace Presentation.Controllers
         {
             _moviesService = moviesService;
         }
-        [SwaggerOperation(Summary = "فیلم=1 و ژانر=2 در ریسپانس زمان انجام بر می گردد ")]     
+        [SwaggerOperation(Summary = "فیلم=1 و ژانر=2 در ریسپانس زمان انجام بر می گردد ")]
         [HttpPost]
         public async Task<RessponseModel> AddOrUpdateExcelFile(IFormFile file, MoviesEnums.ExcelFileType type)
         {
             return await _moviesService.AddOrUpdateByExcelFile(file, type);
-           
+
         }
         [HttpGet]
         public async Task<RessponseModel> GetTopCategoryWithMOvies()
@@ -32,5 +33,8 @@ namespace Presentation.Controllers
             return await _moviesService.GetTopCategoryWithMOvies();
 
         }
+
+
+
     }
 }
