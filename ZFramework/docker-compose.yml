@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  mssql_database:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+
+  presentation:
+    image: ${DOCKER_REGISTRY-}presentation
+    build:
+      context: .
+      dockerfile: Presentation/Presentation/Dockerfile
+volumes:
+  mssql_data:

@@ -1,0 +1,32 @@
+﻿#for run sqlserver
+ docker run -e 'ACCEPT_EULA=Y' -e 'MSSQL_SA_PASSWORD=YourStrong!Passw0rd' -p 1433:1433  -v sqlvolume:/var/opt/mssql -d --name MSSQLSERVER mcr.microsoft.com/mssql/server:2019-latest
+
+#see all docker run 
+docker ps
+
+# see all + stop 
+docker container ls -a
+
+docker start 500b6eda6cd1
+docker stop 500b6eda6cd1
+
+# for bulding image by docker file 
+docker build -t zapplication .
+
+# build docke rfeom root solotion 
+docker build -f  Presentation\Presentation\Dockerfile -t  zapp .
+
+#lunch 
+ docker run --name zapp --link MSSQLSERVER:MSSQLSERVER -e "SqlConnection=Server=mssqlserver;Database=ZApplication;User=sa;Password=yourStrong(!)Password;TrustServerCertificate=True" -p 80:80 zapp
+
+ اگر انوارمنت دولپ درست کردیم فقط لینک از دستور بالا لازم هست 
+
+ #برای راه اندازی 
+ docker compose up
+
+//Add-Migration InitialCreate -Context CommerceContext -OutputDir Migrations\CommerceMigrations
+
+//Add-Migration InitialCreate -S API  -Context CommerceContext -OutputDir Migrations\CommerceMigrations
+
+ Add-Migration initdatabase2 -S Presentation -Context ApplicationDBContext -OutputDir Migrations
+ Update-Database -S Presentation
