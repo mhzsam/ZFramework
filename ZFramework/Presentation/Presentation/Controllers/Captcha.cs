@@ -30,10 +30,18 @@ namespace Presentation.Controllers
         }
 
         [HttpPost]
-        public RessponseModel ValidateCaptcha(VaslidateCaptchaModel model)
+        public RessponseModel ValidateCaptcha([FromBody] VaslidateCaptchaModel model)
         {
             if (CaptchaHelper.ValidateCaptcha(model))
                 return responseGenerator.Succssed();
+            return responseGenerator.Fail(System.Net.HttpStatusCode.NotFound, "کپچا صحیح نمی باشد  ");
+        }
+
+
+        [HttpPost]
+        public RessponseModel ValidateCaptcha2(int id)
+        {
+            
             return responseGenerator.Fail(System.Net.HttpStatusCode.NotFound, "کپچا صحیح نمی باشد  ");
         }
 

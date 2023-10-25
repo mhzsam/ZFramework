@@ -37,9 +37,9 @@ namespace Application.Helper
                 imgText.Mutate(x => x.DrawText(key.ToString(), font, Color.ParseHex(String.Format("#{0:X6}", random.Next(0x1000000))), new PointF(10, 20)));
 
                 var point = GenerateRandomPoint();
-                float thinkness = 4;
+                
                 var tt = Convert.ToByte(random.Next(256));
-                imgText.Mutate(x => x.DrawBeziers(Color.FromRgba(Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256))), 5, GenerateRandomPoint()));
+                imgText.Mutate(x => x.DrawBeziers(Color.FromRgba(Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256))), 15, GenerateRandomPoint()));
                 imgText.Mutate(x => x.DrawBeziers(Color.FromRgba(Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256))), 5, GenerateRandomPoint()));
                 MemoryStream ms = new MemoryStream();
                 imgText.Save(ms, new PngEncoder());

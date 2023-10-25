@@ -23,10 +23,19 @@ builder.Services.AddAllApplicationServices();
 builder.Services.AddInfrastructureService();
 builder.Services.AddDataAnnotationReturnData();
 builder.Services.AddSwagger();
-
+builder.Services.AddCors(o =>
+{
+    o.AddDefaultPolicy(p => p.AllowAnyOrigin()
+                             .AllowAnyHeader()
+                             .AllowAnyMethod()
+                             );
+});
 
 
 var app = builder.Build();
+
+app.UseCors();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
