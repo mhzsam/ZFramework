@@ -6,8 +6,6 @@ namespace Application.Interface
     {
         IRepository<ET> GetRepository<ET>() where ET : EntityClass;
 
-        IMovieRepository GetMovieRepository(); 
-
         Task BeginTransactionAsync();
 
         void CommitTransaction();

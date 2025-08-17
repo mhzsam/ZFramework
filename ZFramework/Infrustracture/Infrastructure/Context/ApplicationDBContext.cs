@@ -1,7 +1,7 @@
 ﻿using Domain.Common;
 using Domain.Entites;
 using Domain.Entites.Config;
-using Domain.Entites.Movies;
+
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain.Context
@@ -18,8 +18,7 @@ namespace Domain.Context
         public DbSet<Role> Rols { get; set; }
         public DbSet<RolePermission> RolePermissions { get; set; }
         public DbSet<Permission> Permissions { get; set; }
-        public DbSet<Category> Categories { get; set; }
-        public DbSet<Movie> Movies { get; set; }
+       
         #endregion
 
 

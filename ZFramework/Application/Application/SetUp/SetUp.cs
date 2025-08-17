@@ -27,7 +27,7 @@ namespace Application.SetUp
             services.AddMemoryCache();
             services.AddScoped<IResponseService, ResponseService>();
             services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IMoviesService, MoviesService>();
+       
             //services.AddSingleton(typeof(Mapper<>));
 
         }

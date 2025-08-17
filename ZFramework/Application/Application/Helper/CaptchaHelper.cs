@@ -2,113 +2,106 @@
 using Microsoft.Extensions.Caching.Memory;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.Drawing;
-using SixLabors.ImageSharp.Drawing.Processing;
-using SixLabors.ImageSharp.Formats.Png;
 using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
-using System;
-using System.Collections.Concurrent;
-
-
+using SixLabors.ImageSharp.Formats.Png;
+using System.Security.Cryptography;
+using SixLabors.ImageSharp.Drawing.Processing;
 
 namespace Application.Helper
 {
-    public static class CaptchaHelper
-    {
-        private static MemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
+	public static class CaptchaHelper
+	{
+		private static readonly MemoryCache _cache = new(new MemoryCacheOptions
+		{
+			SizeLimit = 10000 // محدود کردن تعداد آیتم‌ها
+		});
 
-        public static GetCaptchaModel GetCaptcha()
-        {
-            try
-            {
-                if (!IsFontReady())
-                    throw new Exception("font not found");
-                Random random = new Random();
+		private static readonly Font _font;
+		private static readonly RandomNumberGenerator _rng = RandomNumberGenerator.Create();
 
-                int key = random.Next(10000, 99999);
-                string token = TokenGenerator();
+		static CaptchaHelper()
+		{
+			string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Font/SedgwickAveDisplay.ttf");
+			if (!File.Exists(filePath))
+			{
+				using var client = new HttpClient();
+				var fontBytes = client.GetByteArrayAsync("اگر در کلود است ").Result;
+				File.WriteAllBytes(filePath, fontBytes);
+			}
 
-                FontCollection collection = new();
-                string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "SedgwickAveDisplay.ttf");
-                FontFamily family = collection.Add(filePath);
-                Font font = family.CreateFont(80, FontStyle.Bold);
-                Image imgText = new Image<Rgba32>(250, 100);
-                imgText.Mutate(x => x.DrawText(key.ToString(), font, Color.ParseHex(String.Format("#{0:X6}", random.Next(0x1000000))), new PointF(10, 20)));
+			FontCollection collection = new();
+			FontFamily family = collection.Add(filePath);
+			_font = family.CreateFont(80, FontStyle.Bold);
+		}
 
-                var point = GenerateRandomPoint();
-                
-                var tt = Convert.ToByte(random.Next(256));
-                imgText.Mutate(x => x.DrawBeziers(Color.FromRgba(Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256))), 15, GenerateRandomPoint()));
-                imgText.Mutate(x => x.DrawBeziers(Color.FromRgba(Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256)), Convert.ToByte(random.Next(256))), 5, GenerateRandomPoint()));
-                MemoryStream ms = new MemoryStream();
-                imgText.Save(ms, new PngEncoder());
+		public static GetCaptchaModel GetCaptcha()
+		{
+			int key = GetRandomNumber(10000, 99999);
+			string token = TokenGenerator();
 
-                string base64 = Convert.ToBase64String(ms.ToArray());
+			using var imgText = new Image<Rgba32>(250, 100);
+			imgText.Mutate(x =>
+			{
+				x.DrawText(key.ToString(), _font, GetRandomColor(), new PointF(10, 20));
+				x.DrawBeziers(GetRandomColor(), 15, GenerateRandomPoints());
+				x.DrawBeziers(GetRandomColor(), 5, GenerateRandomPoints());
+			});
 
-                MemoryCacheOptions cacheOptions = new MemoryCacheOptions();
+			using var ms = new MemoryStream();
+			imgText.Save(ms, new PngEncoder());
+			string base64 = Convert.ToBase64String(ms.ToArray());
 
-                _cache.Set(token, key, TimeSpan.FromSeconds(60));
+			_cache.Set(token, key, new MemoryCacheEntryOptions
+			{
+				AbsoluteExpirationRelativeToNow = TimeSpan.FromMinutes(2),
+				Size = 1
+			});
 
-                return new GetCaptchaModel() { Base64Image = base64, CaptchaToken = token };
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("problem from generate captch");
-            }
-        }
-        public static bool ValidateCaptcha(VaslidateCaptchaModel model)
-        {
-            var key = _cache.Get(model.CaptchaToken);
-            if (key != null && model.Key == key.ToString())
-            {
-                _cache.Remove(model.CaptchaToken);
-                return true;
-            }
-            return false;
-        }
+			return new GetCaptchaModel { Base64Image = base64, CaptchaToken = token };
+		}
 
-        private static bool IsFontReady()
-        {
-            string filePath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "SedgwickAveDisplay.ttf");
-            if (!File.Exists(filePath))
-            {
-                var client = new HttpClient();
-                var res = client.GetAsync("https://mhzsamstorage.storage.iran.liara.space/SedgwickAveDisplay.ttf").Result;
-                if (!res.IsSuccessStatusCode)
-                {
-                    return false;
-                }
-                var fontBytes = res.Content.ReadAsByteArrayAsync().Result;
-                File.WriteAllBytes(System.IO.Path.Combine(Directory.GetCurrentDirectory(), "SedgwickAveDisplay.ttf"), fontBytes);
+		public static bool ValidateCaptcha(VaslidateCaptchaModel model)
+		{
+			var key = _cache.Get(model.CaptchaToken);
+			if (key != null && model.Key == key.ToString())
+			{
+				_cache.Remove(model.CaptchaToken);
+				return true;
+			}
+			return false;
+		}
 
-            }
-            return true;
-        }
+		private static string TokenGenerator()
+		{
+			Guid g = Guid.NewGuid();
+			string GuidString = Convert.ToBase64String(g.ToByteArray());
+			return GuidString.Replace("=", "").Replace("+", "");
+		}
 
-        private static string TokenGenerator()
-        {
-            Guid g = Guid.NewGuid();
-            string GuidString = Convert.ToBase64String(g.ToByteArray());
-            GuidString = GuidString.Replace("=", "");
-            GuidString = GuidString.Replace("+", "");
-            return GuidString;
-        }
-        private static PointF[] GenerateRandomPoint()
-        {
-            List<PointF> points = new List<PointF>();
+		private static PointF[] GenerateRandomPoints()
+		{
+			var points = new PointF[10];
+			for (int i = 0; i < points.Length; i++)
+			{
+				points[i] = new PointF(GetRandomNumber(0, 250), GetRandomNumber(0, 100));
+			}
+			return points;
+		}
 
+		private static Color GetRandomColor()
+		{
+			byte[] rgb = new byte[4];
+			_rng.GetBytes(rgb);
+			return Color.FromRgba(rgb[0], rgb[1], rgb[2], rgb[3]);
+		}
 
-            for (int i = 0; i < 10; i++)
-            {
-                points.Add(new PointF(new Random().Next(0, 250), new Random().Next(0, 100)));
-            }
-
-
-            return points.ToArray();
-        }
-
-
-
-    }
+		private static int GetRandomNumber(int min, int max)
+		{
+			byte[] data = new byte[4];
+			_rng.GetBytes(data);
+			int value = BitConverter.ToInt32(data, 0) & int.MaxValue;
+			return (value % (max - min)) + min;
+		}
+	}
 }

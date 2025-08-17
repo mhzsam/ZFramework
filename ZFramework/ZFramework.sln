@@ -11,13 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrustra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Presentation", "Presentation\Presentation\Presentation.csproj", "{C4B2A399-B155-496D-B807-5951241B3A9E}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{880067A6-7139-4074-A5D0-A42700FF8BB3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Font", "Font", "{03969761-DBD6-4ABE-B0CD-1F1C51571619}"
-	ProjectSection(SolutionItems) = preProject
-		Font\SedgwickAveDisplay.ttf = Font\SedgwickAveDisplay.ttf
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -40,10 +33,6 @@ Global
 		{C4B2A399-B155-496D-B807-5951241B3A9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C4B2A399-B155-496D-B807-5951241B3A9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C4B2A399-B155-496D-B807-5951241B3A9E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{880067A6-7139-4074-A5D0-A42700FF8BB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{880067A6-7139-4074-A5D0-A42700FF8BB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{880067A6-7139-4074-A5D0-A42700FF8BB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{880067A6-7139-4074-A5D0-A42700FF8BB3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
