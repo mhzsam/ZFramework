@@ -27,14 +27,14 @@ namespace Presentation.Controllers
         {
            var model= await _userService.GetAll(PageNumber, pageSize);
            
-            return responseGenerator.SuccssedWithResult(model);
+            return responseGenerator.Succssed(model);
         }
 
         [HttpPost]
         public async Task<RessponseModel>SingUp(AddUserModel addUserModel)
         {
             var model = await _userService.SingUp(addUserModel);
-            return responseGenerator.SuccssedWithResult(model);
+            return responseGenerator.Succssed(model);
         }
         [HttpPost]
         public async Task<RessponseModel> Login(string email,string password)
@@ -44,7 +44,7 @@ namespace Presentation.Controllers
             {
              return   responseGenerator.Fail(System.Net.HttpStatusCode.NotFound, ErrorText.NotFoundUser);
             }
-            return responseGenerator.SuccssedWithResult($"Bearer {model.token}");
+            return responseGenerator.Succssed($"Bearer {model.token}");
         }
     }
 }

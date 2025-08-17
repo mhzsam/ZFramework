@@ -26,13 +26,13 @@ namespace Application.Service.ResponseService
             return new RessponseModel(true, null, null,HttpStatusCode.OK);
         }
 
-        public RessponseModelWithPagination SuccssedWithPagination(object result, int total, int pageNumber, int rowPerPage)
+        public RessponseModelWithPagination Succssed(object result, int total, int pageNumber, int rowPerPage)
         {
             return new RessponseModelWithPagination(true, result, new Pagination(total,pageNumber,rowPerPage), null, HttpStatusCode.OK);
 
         }
 
-        public RessponseModel SuccssedWithResult(object result)
+        public RessponseModel Succssed(object result)
         {
             return new RessponseModel(true, result, null, HttpStatusCode.OK);
         }

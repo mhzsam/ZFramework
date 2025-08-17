@@ -22,13 +22,13 @@ builder.Services.AddJWT();
 builder.Services.AddAllApplicationServices();
 builder.Services.AddInfrastructureService();
 builder.Services.AddDataAnnotationReturnData();
-builder.Services.AddSwagger();
+builder.Services.AddSwagger(builder.Configuration);
 builder.Services.AddCors(o =>
 {
-    o.AddDefaultPolicy(p => p.AllowAnyOrigin()
-                             .AllowAnyHeader()
-                             .AllowAnyMethod()
-                             );
+	o.AddDefaultPolicy(p => p.AllowAnyOrigin()
+							 .AllowAnyHeader()
+							 .AllowAnyMethod()
+							 );
 });
 
 
@@ -56,10 +56,11 @@ app.UseCors();
 app.UseSwagger();
 app.UseSwaggerUI();
 AuthorizationSeedData.AuthorizationControllerSeedData(
-                    builder.Services.BuildServiceProvider()
-                    .GetRequiredService<ApplicationDBContext>(),
-                    Assembly.GetExecutingAssembly()
-                    );
+					builder.Services.BuildServiceProvider()
+					.GetRequiredService<ApplicationDBContext>(),
+					Assembly.GetExecutingAssembly(),
+					builder.Configuration
+					);
 
 //app.UseHttpsRedirection();
 

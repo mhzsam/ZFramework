@@ -22,7 +22,7 @@ namespace Application.Helper
 
 		static CaptchaHelper()
 		{
-			string filePath = Path.Combine(Directory.GetCurrentDirectory(), "Font/SedgwickAveDisplay.ttf");
+			string filePath = Path.Combine(AppContext.BaseDirectory, "Font", "SedgwickAveDisplay.ttf");
 			if (!File.Exists(filePath))
 			{
 				using var client = new HttpClient();
@@ -93,7 +93,7 @@ namespace Application.Helper
 		{
 			byte[] rgb = new byte[4];
 			_rng.GetBytes(rgb);
-			return Color.FromRgba(rgb[0], rgb[1], rgb[2], rgb[3]);
+			return Color.FromRgba(rgb[0], rgb[1], rgb[2], 200);
 		}
 
 		private static int GetRandomNumber(int min, int max)

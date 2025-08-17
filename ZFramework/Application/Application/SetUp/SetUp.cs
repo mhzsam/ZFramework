@@ -1,7 +1,7 @@
 ﻿using Application.DTO.ResponseModel;
 using Application.Helper;
 using Application.Interface;
-using Application.Service.MoviesService;
+
 using Application.Service.ResponseService;
 using Application.Service.UserService;
 using Application.SetUp.Model;

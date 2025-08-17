@@ -12,9 +12,9 @@ namespace Application.Service.ResponseService
     {
         public RessponseModel Succssed();
 
-        public RessponseModel SuccssedWithResult(object result);
+        public RessponseModel Succssed(object result);
 
-        public RessponseModelWithPagination SuccssedWithPagination(object result,int total,int pageNumber,int pageRowNumber);
+        public RessponseModelWithPagination Succssed(object result,int total,int pageNumber,int pageRowNumber);
 
         public RessponseModel Fail(HttpStatusCode httpStatusCode, string message);
 

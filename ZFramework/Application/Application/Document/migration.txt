@@ -30,3 +30,5 @@ docker build -f  Presentation\Presentation\Dockerfile -t  zapp .
 
  Add-Migration initdatabase2 -S Presentation -Context ApplicationDBContext -OutputDir Migrations
  Update-Database -S Presentation
+
+ Add-Migration init -StartupProject Presentation -Project Infrastructure
