@@ -6,9 +6,11 @@ using Infrastructure.SetUp;
 using System.Reflection;
 using Presentation.SetUp;
 using Microsoft.EntityFrameworkCore;
+using Domain.Common.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.Configure<AppSettings>(builder.Configuration);
+var appSettings = builder.Configuration.Get<AppSettings>();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 //builder.Services.AddSwaggerGen();
@@ -22,7 +24,6 @@ builder.Services.AddJWT();
 builder.Services.AddAllApplicationServices();
 builder.Services.AddInfrastructureService();
 builder.Services.AddDataAnnotationReturnData();
-builder.Services.AddSwagger(builder.Configuration);
 builder.Services.AddCors(o =>
 {
 	o.AddDefaultPolicy(p => p.AllowAnyOrigin()
@@ -31,7 +32,7 @@ builder.Services.AddCors(o =>
 							 );
 });
 
-
+builder.Services.SetupPresentation(appSettings);
 var app = builder.Build();
 
 app.UseCors();
@@ -55,13 +56,6 @@ app.UseCors();
 //}
 app.UseSwagger();
 app.UseSwaggerUI();
-AuthorizationSeedData.AuthorizationControllerSeedData(
-					builder.Services.BuildServiceProvider()
-					.GetRequiredService<ApplicationDBContext>(),
-					Assembly.GetExecutingAssembly(),
-					builder.Configuration
-					);
-
 //app.UseHttpsRedirection();
 
 app.UseAuthentication();

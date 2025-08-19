@@ -1,50 +1,45 @@
-﻿using Application.DTO.ResponseModel;
-using Application.DTO.UserService;
-using Application.Helper;
-using Application.Interface;
-using Application.Service.ResponseService;
+﻿using Application.DTO.UserDto;
 using Application.Service.UserService;
+using Domain.Common.Message;
+using Domain.Common.Models;
 using Domain.Entites;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    public class UserController : BaseController
-    {
-        
-        private readonly IUserService _userService;
+	public class UserController : BaseController
+	{
 
+		private readonly IUserService _userService;
 
-        public UserController(IResponseService responseService, IUserService userService) : base(responseService)
-        {
-           
-            _userService = userService;
-        }
+		public UserController(IUserService userService)
+		{
+			_userService = userService;
+		}
 
-        [HttpGet]
-        public async Task<RessponseModel> GetAll(int PageNumber, int pageSize)
-        {
-           var model= await _userService.GetAll(PageNumber, pageSize);
-           
-            return responseGenerator.Succssed(model);
-        }
+		[HttpGet]
+		public async Task<ResponseModel<List<User>>> GetAll()
+		{
+			List<User> model = await _userService.GetAllAsync();
 
-        [HttpPost]
-        public async Task<RessponseModel>SingUp(AddUserModel addUserModel)
-        {
-            var model = await _userService.SingUp(addUserModel);
-            return responseGenerator.Succssed(model);
-        }
-        [HttpPost]
-        public async Task<RessponseModel> Login(string email,string password)
-        {
-            var model = await _userService.Login(email, password);
-            if (!model.result)
-            {
-             return   responseGenerator.Fail(System.Net.HttpStatusCode.NotFound, ErrorText.NotFoundUser);
-            }
-            return responseGenerator.Succssed($"Bearer {model.token}");
-        }
-    }
+			return ResponseModel<List<User>>.Success(model);
+		}
+
+		[HttpPost]
+		public async Task<ResponseModel<User>> SingUp(AddUserModel addUserModel)
+		{
+			User model = await _userService.SingUp(addUserModel);
+			return ResponseModel<User>.Success(model);
+		}
+		[HttpPost]
+		public async Task<ResponseModel<string>> Login(string email, string password)
+		{
+			var model = await _userService.Login(email, password);
+			if (!model.result)
+			{
+				return ResponseModel<string>.Fail(ErrorText.General.NotFound);
+			}
+			return ResponseModel<string>.Success($"Bearer {model.token}");
+		}
+	}
 }

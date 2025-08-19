@@ -1,12 +1,8 @@
-﻿using Application.SetUp.Model;
+﻿using Domain.Common.Models;
 using Domain.Context;
 using Domain.Entites;
-using Domain.Entites.Base;
-using Humanizer.Configuration;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Presentation.Controllers;
 using SixLabors.ImageSharp;
@@ -14,12 +10,20 @@ using System.Reflection;
 
 namespace Presentation.SetUp
 {
-	public static class AuthorizationSeedData
+	public static class Setup
 	{
-
-		public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
+		public static IServiceCollection SetupPresentation(this IServiceCollection services, AppSettings appSettings)
 		{
-			ProjectDetails projectDetails = configuration.GetSection(nameof(ProjectDetails)).Get<ProjectDetails>();
+
+			services.AddSwagger(appSettings);
+			services.AuthorizationControllerSeedData(appSettings);
+
+			return services;
+		}
+		private static IServiceCollection AddSwagger(this IServiceCollection services, AppSettings appSettings)
+		{
+
+			ProjectDetails projectDetails = appSettings.ProjectDetails;
 
 			services.AddSwaggerGen(c =>
 			{
@@ -27,7 +31,7 @@ namespace Presentation.SetUp
 				c.SwaggerDoc("v1", new OpenApiInfo
 				{
 					Title = projectDetails.Title,
-					Version = projectDetails.Version.ToString(),
+					Version = projectDetails.ToString(),
 
 				});
 
@@ -62,14 +66,12 @@ namespace Presentation.SetUp
 
 			return services;
 		}
-		public static void AuthorizationControllerSeedData(ApplicationDBContext context, Assembly assembly, IConfiguration configuration)
+		private static void AuthorizationControllerSeedData(this IServiceCollection services, AppSettings appSettings)
 		{
-			ProjectDetails projectDetails = configuration.GetSection(nameof(ProjectDetails)).Get<ProjectDetails>();
+			ApplicationDBContext context = services.BuildServiceProvider().GetRequiredService<ApplicationDBContext>();
+			ProjectDetails projectDetails = appSettings.ProjectDetails;
 
-
-
-
-			var controlleractionlist = assembly.GetTypes()
+			var controlleractionlist = Assembly.GetExecutingAssembly().GetTypes()
 			.Where(type => typeof(BaseController).IsAssignableFrom(type))
 			.SelectMany(type => type.GetMethods(BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public))
 			.Select(x => new

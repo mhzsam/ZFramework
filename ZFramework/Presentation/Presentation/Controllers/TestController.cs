@@ -1,25 +1,20 @@
-﻿using Application.DTO.ResponseModel;
-using Application.Service.ResponseService;
-using Application.Service.UserService;
+﻿using Domain.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-    [Authorize]
+	[Authorize]
     public class TestController : BaseController
     {
 
-        public TestController(IResponseService responseService) : base(responseService)
-        {
-
-        }
+       
         [HttpGet]
-        public async Task<RessponseModel> GetAll(int PageNumber, int pageSize)
+        public async Task<ResponseModel> GetAll(int PageNumber, int pageSize)
         {
 
 
-            return responseGenerator.Succssed();
+            return ResponseModel.Success();
         }
     }
 }

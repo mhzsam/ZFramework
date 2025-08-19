@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.DTO.Captcha
+namespace Domain.Common.Models
 {
     public class GetCaptchaModel
     {

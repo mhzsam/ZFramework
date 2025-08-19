@@ -1,7 +1,6 @@
-﻿using Application.DTO.Captcha;
-using Application.DTO.ResponseModel;
-using Application.Helper;
-using Application.Service.ResponseService;
+﻿using Application.Helper;
+using Domain.Common.Message;
+using Domain.Common.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,36 +9,33 @@ namespace Presentation.Controllers
 	[AllowAnonymous]
 	public class CommonController : BaseController
 	{
-		public CommonController(IResponseService res) : base(res)
-		{
-		}
+
 
 		[HttpGet]
-		public RessponseModel GetCaptcha()
+		public ResponseModel<GetCaptchaModel> GetCaptcha()
 		{
 			GetCaptchaModel captcha = CaptchaHelper.GetCaptcha();
 			if (captcha == null || string.IsNullOrEmpty(captcha.Base64Image))
 			{
-				return responseGenerator.Fail(System.Net.HttpStatusCode.Conflict, "اشکال در پردازش");
+				return ResponseModel<GetCaptchaModel>.Fail(ErrorText.General.Failed);
 			}
-			return responseGenerator.Succssed(captcha);
+			return ResponseModel<GetCaptchaModel>.Success(captcha);
 
 		}
 
 		[HttpPost]
-		public RessponseModel ValidateCaptcha([FromBody] VaslidateCaptchaModel model)
+		public ResponseModel ValidateCaptcha([FromBody] VaslidateCaptchaModel model)
 		{
 			if (CaptchaHelper.ValidateCaptcha(model))
-				return responseGenerator.Succssed();
-			return responseGenerator.Fail(System.Net.HttpStatusCode.NotFound, "کپچا صحیح نمی باشد  ");
+				return ResponseModel.Success();
+			return ResponseModel.Fail(ErrorText.General.Failed);
 		}
 
 
 		[HttpPost]
-		public RessponseModel ValidateCaptcha2(int id)
+		public ResponseModel ValidateCaptcha2(int id)
 		{
-
-			return responseGenerator.Fail(System.Net.HttpStatusCode.NotFound, "کپچا صحیح نمی باشد  ");
+			return ResponseModel.Fail(ErrorText.General.Failed);
 		}
 	}
 }
