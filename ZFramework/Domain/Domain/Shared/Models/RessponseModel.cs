@@ -5,7 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Common.Models
+namespace Domain1.Shared.Models
 {
 	public record ResponseModel(
 	bool IsSucceeded,
@@ -21,7 +21,7 @@ namespace Domain.Common.Models
 
 		public static ResponseModel Fail(List<string>? errors, string? desc = null)
 			=> new(false, errors, desc);
-		
+
 	}
 	public record ResponseModel<T>(
 	 bool IsSucceeded,

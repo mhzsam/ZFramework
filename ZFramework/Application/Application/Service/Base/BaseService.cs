@@ -1,5 +1,5 @@
 ﻿using DocumentFormat.OpenXml.InkML;
-using Domain.Shared.Interface;
+using Domain1.Shared.Interface;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,7 +8,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Service.Base
+namespace Application1.Service.Base
 {
 	public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
 	{

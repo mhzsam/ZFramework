@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Common.Message
+namespace Domain1.Shared.Message
 {
 	public static class ErrorText
 	{
@@ -26,7 +26,7 @@ namespace Domain.Common.Message
 		}
 		#endregion
 
-		
+
 
 		#region Validation
 		public static class Validation
@@ -113,8 +113,8 @@ namespace Domain.Common.Message
 			public const string ResourceNotFound = "منبع مورد نظر یافت نشد";
 			public const string MemoryLimitExceeded = "حد مجاز حافظه اشغال شده است";
 		}
-		#endregion		
-		
+		#endregion
+
 
 		#region Email & SMS
 		public static class Communication

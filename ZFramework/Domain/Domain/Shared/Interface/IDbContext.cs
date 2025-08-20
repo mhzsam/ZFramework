@@ -7,14 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Shared.Interface
+namespace Domain1.Shared.Interface
 {
 	public interface IDbContext
 	{
 		// Database operations
 		Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-		int SaveChanges();		
-		
+		int SaveChanges();
+
 		// Entry methods
 		EntityEntry<TEntity> Entry<TEntity>(TEntity entity) where TEntity : class;
 		EntityEntry Entry(object entity);

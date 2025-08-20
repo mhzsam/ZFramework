@@ -5,15 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Helper
+namespace Application1.Helper
 {
-    public static class Mapper<TDestination>
-        where TDestination : class
-        
-    {
-        public static TDestination ToEntity(object sourceType)
-        {
-          return (sourceType).Adapt<TDestination>();
-        }
-    }
+	public static class Mapper<TDestination>
+		where TDestination : class
+
+	{
+		public static TDestination ToEntity(object sourceType)
+		{
+			return sourceType.Adapt<TDestination>();
+		}
+	}
 }

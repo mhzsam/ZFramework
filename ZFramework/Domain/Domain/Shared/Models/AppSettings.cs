@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Common.Models
+namespace Domain1.Shared.Models
 {
 	public class AppSettings
 	{
@@ -36,6 +36,6 @@ namespace Domain.Common.Models
 	public class ProjectDetails
 	{
 		public string Title { get; set; } = string.Empty;
-		public int? version { get; set; } =null;
+		public int? version { get; set; } = null;
 	}
 }

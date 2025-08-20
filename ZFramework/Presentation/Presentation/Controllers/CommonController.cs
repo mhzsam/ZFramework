@@ -1,10 +1,10 @@
-﻿using Application.Helper;
-using Domain.Common.Message;
-using Domain.Common.Models;
+﻿using Application1.Helper;
+using Domain1.Shared.Message;
+using Domain1.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Presentation.Controllers
+namespace Presentation1.Controllers
 {
 	[AllowAnonymous]
 	public class CommonController : BaseController

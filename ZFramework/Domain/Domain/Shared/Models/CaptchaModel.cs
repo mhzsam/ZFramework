@@ -4,18 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Common.Models
+namespace Domain1.Shared.Models
 {
-    public class GetCaptchaModel
-    {
-        public string CaptchaToken { get; set; }
-        public string Base64Image { get; set; }
-    }
+	public class GetCaptchaModel
+	{
+		public string CaptchaToken { get; set; }
+		public string Base64Image { get; set; }
+	}
 
-    public class VaslidateCaptchaModel
-    {
-        public string CaptchaToken { get; set; }
-        public string Key { get; set; }
+	public class VaslidateCaptchaModel
+	{
+		public string CaptchaToken { get; set; }
+		public string Key { get; set; }
 
-    }
+	}
 }

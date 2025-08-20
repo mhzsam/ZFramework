@@ -1,17 +1,17 @@
-﻿using Application.DTO.UserDto;
-using Application.Helper;
-using Application.Service.Base;
+﻿using Application1.DTO.UserDto;
+using Application1.Helper;
+using Application1.Service.Base;
 using DocumentFormat.OpenXml.InkML;
 using Domain.Common;
-using Domain.Common.Models;
-using Domain.Entites;
-using Domain.Helper;
-using Domain.Shared.Interface;
+using Domain1.Entites;
+using Domain1.Helper;
+using Domain1.Shared.Interface;
+using Domain1.Shared.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Application.Service.UserService
+namespace Application1.Service.UserService
 {
 	public class UserService : BaseService<User>, IUserService
 	{

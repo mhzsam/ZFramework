@@ -6,9 +6,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Domain.Entites.Base;
+using Domain1.Entites.Base;
 
-namespace Domain.Entites
+namespace Domain1.Entites
 {
 	public class Permission : EntityClass
 	{

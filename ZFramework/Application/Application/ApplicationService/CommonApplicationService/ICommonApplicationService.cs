@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.ApplicationService.CommonApplicationService
+namespace Application1.ApplicationService.CommonApplicationService
 {
-    public interface ICommonApplicationService
-    {
-    }
+	public interface ICommonApplicationService
+	{
+	}
 }

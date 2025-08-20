@@ -1,18 +1,18 @@
 ﻿using Domain.Common;
-using Domain.Entites;
 using Domain.Entites.Config;
-using Domain.Helper;
-using Domain.Shared.Interface;
+using Domain1.Entites;
+using Domain1.Helper;
+using Domain1.Shared.Interface;
 using Microsoft.EntityFrameworkCore;
 
-namespace Domain.Context
+namespace Infrastructure1.Context
 {
 	public class ApplicationDBContext : DbContext, IApplicationDBContext
 	{
 		public ApplicationDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
 		{
 		}
-		public new DbSet<TEntity> Set<TEntity>() where TEntity : class	=> base.Set<TEntity>();
+		public new DbSet<TEntity> Set<TEntity>() where TEntity : class => base.Set<TEntity>();
 
 		#region DbSet
 		public DbSet<User> Users { get; set; }
@@ -21,7 +21,7 @@ namespace Domain.Context
 		public DbSet<RolePermission> RolePermissions { get; set; }
 		public DbSet<Permission> Permissions { get; set; }
 
-		
+
 		#endregion
 
 

@@ -1,6 +1,6 @@
-﻿using Domain.Common.Message;
-using Domain.Common.Models;
-using Domain.Context;
+﻿using Domain1.Shared.Message;
+using Domain1.Shared.Models;
+using Infrastructure1.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +8,7 @@ using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text.Json;
 
-namespace Application.MiddleWare
+namespace Infrastructure1.Middleware
 {
 	public static class PermissionControlMiddelware
 	{

@@ -1,4 +1,4 @@
-﻿using Domain.Entites;
+﻿using Domain1.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -9,11 +9,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Shared.Interface
+namespace Domain1.Shared.Interface
 {
-	public interface IApplicationDBContext: IDbContext
+	public interface IApplicationDBContext : IDbContext
 	{
-		
+
 
 		// Set method
 		DbSet<TEntity> Set<TEntity>() where TEntity : class;

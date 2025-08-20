@@ -1,11 +1,11 @@
-﻿using Application.DTO.UserDto;
-using Application.Service.UserService;
-using Domain.Common.Message;
-using Domain.Common.Models;
-using Domain.Entites;
+﻿using Application1.DTO.UserDto;
+using Application1.Service.UserService;
+using Domain1.Entites;
+using Domain1.Shared.Message;
+using Domain1.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Presentation.Controllers
+namespace Presentation1.Controllers
 {
 	public class UserController : BaseController
 	{
