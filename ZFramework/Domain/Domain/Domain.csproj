@@ -7,8 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Enums\**" />
 	  <Compile Remove="IRepository\**" />
+	  <EmbeddedResource Remove="Enums\**" />
 	  <EmbeddedResource Remove="IRepository\**" />
+	  <None Remove="Enums\**" />
 	  <None Remove="IRepository\**" />
 	</ItemGroup>
 
@@ -20,10 +23,6 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Enums\" />
 	</ItemGroup>
 
 </Project>
