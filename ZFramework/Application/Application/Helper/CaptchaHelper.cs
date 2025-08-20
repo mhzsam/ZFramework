@@ -1,4 +1,4 @@
-﻿using Domain.Common.Models;
+﻿using Domain1.Shared.Models;
 using Microsoft.Extensions.Caching.Memory;
 using SixLabors.Fonts;
 using SixLabors.ImageSharp;
@@ -8,7 +8,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 using System.Security.Cryptography;
 
-namespace Application.Helper
+namespace Application1.Helper
 {
 	public static class CaptchaHelper
 	{
@@ -101,7 +101,7 @@ namespace Application.Helper
 			byte[] data = new byte[4];
 			_rng.GetBytes(data);
 			int value = BitConverter.ToInt32(data, 0) & int.MaxValue;
-			return (value % (max - min)) + min;
+			return value % (max - min) + min;
 		}
 	}
 }

@@ -1,5 +1,5 @@
-﻿using Application.Service.UserService;
-using Domain.Common.Models;
+﻿using Application1.Service.UserService;
+using Domain1.Shared.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -9,7 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Net;
 using System.Text;
 
-namespace Application.SetUp
+namespace Application1.SetUp
 {
 	public static class SetUp
 	{

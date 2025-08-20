@@ -1,20 +1,20 @@
-﻿using Domain.Common.Models;
+﻿using Domain1.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Presentation.Controllers
+namespace Presentation1.Controllers
 {
 	[Authorize]
-    public class TestController : BaseController
-    {
-
-       
-        [HttpGet]
-        public async Task<ResponseModel> GetAll(int PageNumber, int pageSize)
-        {
+	public class TestController : BaseController
+	{
 
 
-            return ResponseModel.Success();
-        }
-    }
+		[HttpGet]
+		public async Task<ResponseModel> GetAll(int PageNumber, int pageSize)
+		{
+
+
+			return ResponseModel.Success();
+		}
+	}
 }

@@ -1,12 +1,12 @@
 using Application.Helper;
-using Application.MiddleWare;
-using Application.SetUp;
 using Domain.Context;
-using Infrastructure.SetUp;
 using System.Reflection;
-using Presentation.SetUp;
 using Microsoft.EntityFrameworkCore;
-using Domain.Common.Models;
+using Domain1.Shared.Models;
+using Application1.SetUp;
+using Infrastructure1.SetUp;
+using Infrastructure1.Middleware;
+using Presentation1.SetUp;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AppSettings>(builder.Configuration);

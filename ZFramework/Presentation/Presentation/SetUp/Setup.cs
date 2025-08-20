@@ -1,14 +1,14 @@
-﻿using Domain.Common.Models;
-using Domain.Context;
-using Domain.Entites;
+﻿using Domain1.Entites;
+using Domain1.Shared.Models;
+using Infrastructure1.Context;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using Presentation.Controllers;
+using Presentation1.Controllers;
 using SixLabors.ImageSharp;
 using System.Reflection;
 
-namespace Presentation.SetUp
+namespace Presentation1.SetUp
 {
 	public static class Setup
 	{
