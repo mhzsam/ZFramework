@@ -12,11 +12,11 @@ namespace Application.Service.UserService
 {
 	public class UserService : BaseService<User>, IUserService
 	{
-		private readonly JwtConfig _jwtConfig;
 
-		public UserService(IApplicationDBContext applicationDBContext, IOptions<AppSettings> appSettings) : base(applicationDBContext)
+
+		public UserService(IApplicationDBContext applicationDBContext) : base(applicationDBContext)
 		{
-			_jwtConfig = appSettings.Value.JWTConfig;
+
 
 		}
 
@@ -33,7 +33,7 @@ namespace Application.Service.UserService
 			{
 				return (false, "");
 			}
-			var token = SecurityHelper.GetNewToken(user.Id, _jwtConfig.TokenKey, _jwtConfig.TokenTimeOut);
+			var token = SecurityHelper.GetNewToken(user.Id);
 			return (true, token);
 
 		}

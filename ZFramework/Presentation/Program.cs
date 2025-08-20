@@ -10,11 +10,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AppSettings>(builder.Configuration);
 var appSettings = builder.Configuration.Get<AppSettings>();
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
 builder.Services.SetUpApplicationLayer(appSettings);
 builder.Services.SetUpInfrastructureLayer(appSettings);
 builder.Services.SetupPresentationLayer(appSettings);
+
+builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(o =>
 {
 	o.AddDefaultPolicy(p => p.AllowAnyOrigin()
@@ -25,20 +26,5 @@ builder.Services.AddCors(o =>
 
 var app = builder.Build();
 
-app.UseCors();
-
-app.UseSwagger();
-app.UseSwaggerUI();
-//app.UseHttpsRedirection();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-app.UsePermissionCheck();
-app.MapGet("/", context =>
-{
-	context.Response.Redirect("/swagger");
-	return Task.CompletedTask;
-});
+app.UseAppMiddlewares();
 app.Run();

@@ -1,4 +1,6 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Domain.Shared.Models;
+using Domain.Exception;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -7,12 +9,18 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Shared.Message;
 
 namespace Domain.Helper
 {
 	public static class SecurityHelper
 	{
+		private static AppSettings? _appSettings;
 
+		public static void Configure(AppSettings? appSettings)
+		{
+			_appSettings = appSettings;
+		}
 		public static string PasswordToSHA256(string password)
 		{
 			StringBuilder Sb = new StringBuilder();
@@ -27,10 +35,13 @@ namespace Domain.Helper
 
 			return Sb.ToString();
 		}
-		public static string GetNewToken(int userId, string tokenKey, int tokenTimeOut)
+		public static string GetNewToken(int userId)
 		{
+			if (_appSettings == null)
+				throw new CustomException(ErrorText.Auth.ConfigNotfound);
+
 			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.UTF8.GetBytes(tokenKey);
+			var key = Encoding.UTF8.GetBytes(_appSettings.JWTConfig.TokenKey);
 
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
@@ -39,7 +50,7 @@ namespace Domain.Helper
 						new Claim("userId", userId.ToString()),
 				}),
 
-				Expires = DateTime.UtcNow.AddMinutes(tokenTimeOut),
+				Expires = DateTime.UtcNow.AddMinutes(_appSettings.JWTConfig.TokenTimeOut),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 			};
 

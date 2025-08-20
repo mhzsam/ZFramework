@@ -16,7 +16,7 @@ namespace Application.SetUp
 		{
 			AddAllApplicationServices(services);
 			AddDataAnnotationReturnData(services);
-			AddJWT(services, appSettings);
+		
 
 		}
 		private static void AddAllApplicationServices(this IServiceCollection services)
@@ -46,35 +46,7 @@ namespace Application.SetUp
 			   );
 
 		}
-		private static IServiceCollection AddJWT(this IServiceCollection services, AppSettings appSettings)
-		{
-
-			JwtConfig configs = appSettings.JWTConfig;
-			var key = Encoding.UTF8.GetBytes(configs.TokenKey);
-
-
-			services.AddAuthentication(x =>
-			{
-				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-			})
-			.AddJwtBearer(x =>
-			{
-				x.RequireHttpsMetadata = false;
-				x.SaveToken = true;
-				x.TokenValidationParameters = new TokenValidationParameters
-				{
-					ClockSkew = TimeSpan.FromMinutes(configs.TokenTimeOut),
-					ValidateLifetime = true,
-					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(key),
-					ValidateIssuer = false,
-					ValidateAudience = false
-				};
-			});
-
-			return services;
-		}
+		
 
 
 	}

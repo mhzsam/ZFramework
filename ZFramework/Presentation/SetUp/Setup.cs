@@ -1,12 +1,17 @@
 ﻿using Domain.Entites;
+using Domain.Shared.Message;
 using Domain.Shared.Models;
 using Infrastructure.Context;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Presentation.Controllers;
 using SixLabors.ImageSharp;
 using System.Reflection;
+using System.Text;
 
 namespace Presentation.SetUp
 {
@@ -17,6 +22,7 @@ namespace Presentation.SetUp
 
 			services.AddSwagger(appSettings);
 			services.AuthorizationControllerSeedData(appSettings);
+			services.AddJWT(appSettings);
 
 			return services;
 		}
@@ -145,6 +151,53 @@ namespace Presentation.SetUp
 			});
 
 			context.SaveChanges();
+		}
+		private static IServiceCollection AddJWT(this IServiceCollection services, AppSettings appSettings)
+		{
+
+			JwtConfig configs = appSettings.JWTConfig;
+			var key = Encoding.UTF8.GetBytes(configs.TokenKey);
+
+
+			services.AddAuthentication(x =>
+			{
+				x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+				x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+			})
+			.AddJwtBearer(x =>
+			{
+				x.RequireHttpsMetadata = false;
+				x.SaveToken = true;
+				x.TokenValidationParameters = new TokenValidationParameters
+				{
+					ClockSkew = TimeSpan.FromMinutes(configs.TokenTimeOut),
+					ValidateLifetime = true,
+					ValidateIssuerSigningKey = true,
+					IssuerSigningKey = new SymmetricSecurityKey(key),
+					ValidateIssuer = false,
+					ValidateAudience = false
+				};
+				x.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+				{
+					OnChallenge = async context =>
+					{
+						context.HandleResponse(); // جلوگیری از پاسخ پیش‌فرض
+						context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+						context.Response.ContentType = ContentTypes.Json;
+						var response = ResponseModel.Fail(ErrorText.Auth.Unauthorized);
+						await context.Response.WriteAsJsonAsync(response);
+					},
+					OnForbidden = async context =>
+					{
+						context.Response.StatusCode = StatusCodes.Status403Forbidden;
+						context.Response.ContentType = ContentTypes.Json;
+						var response = ResponseModel.Fail(ErrorText.Auth.Unauthorized);
+						await context.Response.WriteAsJsonAsync(response);
+					}
+				};
+			});
+
+			return services;
 		}
 	}
 }

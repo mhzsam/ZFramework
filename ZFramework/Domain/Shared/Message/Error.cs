@@ -23,6 +23,7 @@ namespace Domain.Shared.Message
 			public const string SessionExpired = "جلسه کاری شما منقضی شده است";
 			public const string TwoFactorRequired = "احراز هویت دو مرحله‌ای الزامی است";
 			public const string InvalidTwoFactorCode = "کد احراز هویت دو مرحله‌ای نامعتبر است";
+			public const string ConfigNotfound = "تنظیمات توکن پیدا نشد";
 		}
 		#endregion
 
