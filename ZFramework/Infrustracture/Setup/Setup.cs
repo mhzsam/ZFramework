@@ -17,28 +17,13 @@ namespace Infrastructure.SetUp
 
 		public static void AddApplicationDBContext(this IServiceCollection services, AppSettings appSettings)
 		{
-			var tt = appSettings.ConnectionStrings.SqlConnection;
-			services.AddDbContext<IApplicationDBContext, ApplicationDBContext>(options =>
+			services.AddDbContext<ApplicationDBContext>(options =>
 			{
-				options.UseSqlServer(appSettings.ConnectionStrings.SqlConnection);
+				options.UseSqlServer(appSettings.ConnectionStrings.SqlConnection.ToString());
 			});
-			using (var context = new ApplicationDBContext(
-	new DbContextOptionsBuilder<ApplicationDBContext>()
-		.UseSqlServer(appSettings.ConnectionStrings.SqlConnection)
-		.Options))
-			{
-				try
-				{
-					var canConnect = context.Database.CanConnect();
-					Console.WriteLine(canConnect
-						? "✅ اتصال EF Core موفق بود!"
-						: "❌ اتصال EF Core برقرار نشد.");
-				}
-				catch (Exception ex)
-				{
-					Console.WriteLine("❌ خطا: " + ex.Message);
-				}
-			}
+
+			services.AddScoped<IApplicationDBContext>(provider =>
+				provider.GetRequiredService<ApplicationDBContext>());
 		}
 	}
 }
