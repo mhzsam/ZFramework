@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AplicationDBContext))]
-    partial class AplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250821150422_addPermissionHash")]
+    partial class addPermissionHash
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +123,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 816, DateTimeKind.Local).AddTicks(6947),
+                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 812, DateTimeKind.Local).AddTicks(3784),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "SuperAdmin"
@@ -251,7 +254,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Mohammad555",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 816, DateTimeKind.Local).AddTicks(9058),
+                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 813, DateTimeKind.Local).AddTicks(2131),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Zarrabi",
@@ -306,7 +309,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 817, DateTimeKind.Local).AddTicks(146),
+                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 813, DateTimeKind.Local).AddTicks(4189),
                             IsDeleted = false,
                             RoleId = 1,
                             UserId = 1

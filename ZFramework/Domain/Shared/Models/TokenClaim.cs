@@ -20,9 +20,6 @@ namespace Domain.Shared.Models
 		{
 			var claims = new List<Claim>();
 
-			claims.Add(new Claim("userId", Id.ToString()));
-
-
 			if (Roles != null)
 			{
 				foreach (var role in Roles)
@@ -42,6 +39,8 @@ namespace Domain.Shared.Models
 					claims.Add(new Claim(kvp.Key, kvp.Value));
 				}
 			}
+
+			claims.Add(new Claim("userId", Id.ToString()));
 
 			return claims;
 		}

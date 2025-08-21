@@ -20,5 +20,6 @@ namespace Domain.Entites
         public int UserId { get; set; }
         public User user { get; set; }
 
+
     }
 }

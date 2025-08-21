@@ -1,5 +1,5 @@
-﻿using Infrastructure.Middleware;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
+using Presentation.Middleware;
 
 namespace Presentation.SetUp
 {
@@ -13,8 +13,8 @@ namespace Presentation.SetUp
 			app.UseAuthentication();
 			app.UseAuthorization();
 			app.MapControllers();
-			app.UsePermissionCheck();
 			app.UseMiddleware<ExceptionHandlingMiddleware>();
+			app.UseMiddleware<PermissionControlMiddleware>();
 			app.MapGet("/", context =>
 			{
 				context.Response.Redirect("/swagger");

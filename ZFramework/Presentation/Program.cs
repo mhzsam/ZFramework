@@ -1,11 +1,7 @@
-﻿using Domain.Shared.Models;
-using Infrastructure.Middleware;
-using Microsoft.EntityFrameworkCore;
+﻿using Application.SetUp;
+using Domain.Shared.Models;
 using Infrastructure.SetUp;
 using Presentation.SetUp;
-using Application.SetUp;
-using Microsoft.Extensions.Configuration;
-using Infrastructure.Context;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AppSettings>(builder.Configuration);

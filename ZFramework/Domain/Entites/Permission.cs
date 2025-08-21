@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Entites.Base;
+using Domain.Helper;
 
 namespace Domain.Entites
 {
@@ -33,11 +34,16 @@ namespace Domain.Entites
         [Required(ErrorMessage = "مقدار نوع متد الزامی است ")]
         public string ActionMethod { get; set; }
 
-		
+		public ulong PermissionHash { get; set; }
+
 		public string? Description { get; set; }
 
 		public bool IsActivee { get; set; }
 
-
-    }
+		public void ComputeAndSetHash()
+		{
+			var key = $"{ProjectName}&{ControllerName}&{ActionName}&{ActionMethod}".ToLowerInvariant();
+			PermissionHash = PermissionHashHelper.ComputeHash(key);
+		}
+	}
 }

@@ -15,7 +15,7 @@ namespace Application.SetUp
 		{
 			AddAllApplicationServices(services);
 			AddDataAnnotationReturnData(services);
-			AddCatchServices(services, appSettings);
+			AddCacheServices(services, appSettings.CacheSettings);
 
 
 
@@ -26,19 +26,16 @@ namespace Application.SetUp
 			services.AddScoped<IUserService, UserService>();
 
 		}
-		private static void AddCatchServices(this IServiceCollection services, AppSettings appSettings)
+		public static void AddCacheServices(this IServiceCollection services, CacheSettings cacheSettings)
 		{
-			var cacheSettings = appSettings.CacheSettings ?? new CacheSettings();
-
-			if (cacheSettings.Provider.Equals("Redis", StringComparison.OrdinalIgnoreCase))
+			if (string.Equals(cacheSettings?.Provider, "Redis", StringComparison.OrdinalIgnoreCase))
 			{
-				// ۱) ثبت زیرساخت Redis
 				services.AddStackExchangeRedisCache(options =>
 				{
-					options.Configuration = cacheSettings.RedisConfiguration;
+					options.Configuration = cacheSettings.RedisConfiguration
+						?? throw new InvalidOperationException("RedisConfiguration is missing in CacheSettings.");
 				});
 
-				// ۲) ثبت ICacheService برای Redis
 				services.AddScoped<ICacheService>(sp =>
 				{
 					var distributedCache = sp.GetRequiredService<IDistributedCache>();
@@ -47,10 +44,8 @@ namespace Application.SetUp
 			}
 			else
 			{
-				// ۱) ثبت زیرساخت Memory
 				services.AddMemoryCache();
 
-				// ۲) ثبت ICacheService برای Memory
 				services.AddScoped<ICacheService>(sp =>
 				{
 					var memoryCache = sp.GetRequiredService<IMemoryCache>();
@@ -58,6 +53,7 @@ namespace Application.SetUp
 				});
 			}
 
+			
 		}
 		private static void AddDataAnnotationReturnData(this IServiceCollection services)
 		{

@@ -10,9 +10,8 @@ using Microsoft.Extensions.Options;
 
 namespace Application.Service.UserService
 {
-    public class UserService : BaseService<User>, IUserService
+	public class UserService : BaseService<User>, IUserService
 	{
-
 
 		public UserService(IApplicationDBContext applicationDBContext) : base(applicationDBContext)
 		{
@@ -33,7 +32,7 @@ namespace Application.Service.UserService
 			{
 				return (false, "");
 			}
-			var token = SecurityHelper.GetNewToken(new TokenClaim( user.Id));
+			var token = SecurityHelper.GetNewToken(new TokenClaim(user.Id));
 			return (true, token);
 
 		}

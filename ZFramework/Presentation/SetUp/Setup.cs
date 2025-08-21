@@ -98,7 +98,7 @@ namespace Presentation.SetUp
 			|| attr.GetType() == typeof(HttpPostAttribute)
 			|| attr.GetType() == typeof(HttpDeleteAttribute)
 			).FirstOrDefault().ToString().Split(".").LastOrDefault().Replace("Http", "").Replace("Attribute", ""),
-				Description=x.GetCustomAttribute<DescriptionAttribute>()?.Description
+				Description = x.GetCustomAttribute<DescriptionAttribute>()?.Description
 
 			})
 			.OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
@@ -111,13 +111,13 @@ namespace Presentation.SetUp
 					s.ProjectName == projectDetails.Title &&
 					s.ControllerName == p.Controller &&
 					s.ActionName == p.Action &&
-					s.ActionMethod == p.ActionMethod					
+					s.ActionMethod == p.ActionMethod
 					);
 
 				if (existing == null)
 				{
 					// ایجاد
-					context.Permissions.Add(new Permission
+					var permission = new Permission
 					{
 						ProjectName = projectDetails.Title,
 						ControllerName = p.Controller,
@@ -125,10 +125,12 @@ namespace Presentation.SetUp
 						ActionMethod = p.ActionMethod,
 						InsertDate = DateTime.Now,
 						IsActivee = true,
-						Description=p.Description
-					});
+						Description = p.Description
+					};
+					permission.ComputeAndSetHash();
+					context.Permissions.Add(permission);
 				}
-				else if (!existing.IsActivee || existing.Description!=p.Description)
+				else if (!existing.IsActivee || existing.Description != p.Description)
 				{
 					// فعال‌سازی مجدد
 					existing.IsActivee = true;
@@ -155,11 +157,11 @@ namespace Presentation.SetUp
 						ActionName = p.ActionName,
 						ActionMethod = p.ActionMethod,
 						UpdateDate = DateTime.Now,
-						UpdateBy=-1,
+						UpdateBy = -1,
 						IsActivee = false,
-						Description=p.Description
+						Description = p.Description
 					};
-
+					permission.ComputeAndSetHash();
 					context.Permissions.Update(permission);
 
 

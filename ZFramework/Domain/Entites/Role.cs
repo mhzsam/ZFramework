@@ -18,5 +18,8 @@ namespace Domain.Entites
         public string RoleName { get; set; }
         [DefaultValue(true)]
         public bool IsActive { get; set; }
-    }
+
+		public List<RolePermission> RolePermissions { get; set; }
+
+	}
 }
