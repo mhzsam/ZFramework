@@ -9,10 +9,13 @@ namespace Application.Service.Base
 	internal class CurrentUserService : ICurrentUserService
 	{
 		public int? UserId { get; private set; }
-		public IReadOnlyCollection<int>? Roles { get; private set; } = Array.Empty<int>();
+		public List<int>? Roles { get; private set; }
+		public HashSet<ulong>? Permissions { get; private set; }
 
-		public void SetUser(int? userId, IEnumerable<int> roles)
+
+		public void SetUser(int? userId, HashSet<ulong>? permissions, List<int> roles)
 		{
+			Permissions = permissions;
 			UserId = userId;
 			Roles = roles.ToList();
 		}

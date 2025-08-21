@@ -9,8 +9,9 @@ namespace Application.Service.Base
 	public interface ICurrentUserService
 	{
 		int? UserId { get; }
-		IReadOnlyCollection<int>? Roles { get; }
+		List<int>? Roles { get; }
+		HashSet<ulong>? Permissions { get; }
 
-		void SetUser(int? userId, IEnumerable<int> roles);
+		void SetUser(int? userId, HashSet<ulong>? permissions, List<int>? roles);
 	}
 }

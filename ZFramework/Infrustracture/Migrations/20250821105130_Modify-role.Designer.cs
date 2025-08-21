@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(AplicationDBContext))]
+    [DbContext(typeof(ApplicationDBContext))]
     [Migration("20250821105130_Modify-role")]
     partial class Modifyrole
     {

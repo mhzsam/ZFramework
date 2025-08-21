@@ -1,4 +1,5 @@
-﻿using Domain.Shared.Interface;
+﻿using Application.Service.Base;
+using Domain.Shared.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +12,14 @@ namespace Application.ApplicationService
 	public class BaseApplicationService
 	{
 		protected readonly IApplicationDBContext _context;
+		protected readonly ICurrentUserService _currentUser;
+		private IApplicationDBContext applicationDBContext;
 
-		public BaseApplicationService(IApplicationDBContext applicationDBContext)
+		
+		public BaseApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser)
 		{
 			_context = applicationDBContext ?? throw new ArgumentNullException(nameof(applicationDBContext));
-
+			_currentUser = currentUser;
 		}
 		public async Task BeginTransactionAsync(CancellationToken cancellationToken = default)
 		{

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Infrastructure.Migrations
 {
-    [DbContext(typeof(AplicationDBContext))]
+    [DbContext(typeof(ApplicationDBContext))]
     [Migration("20250821150422_addPermissionHash")]
     partial class addPermissionHash
     {

@@ -13,7 +13,7 @@ namespace Application.Service.UserService
 	public class UserService : BaseService<User>, IUserService
 	{
 
-		public UserService(IApplicationDBContext applicationDBContext) : base(applicationDBContext)
+		public UserService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser) : base(applicationDBContext, currentUser)
 		{
 
 

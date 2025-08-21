@@ -5,14 +5,16 @@ namespace Application.Service.Base
 {
 	public class BaseService<TEntity> : IBaseService<TEntity> where TEntity : class
 	{
-		public readonly IApplicationDBContext _context;
+		protected readonly IApplicationDBContext _context;
 
-		public readonly DbSet<TEntity> _dbSet;
-		public BaseService(IApplicationDBContext applicationDBContext)
+		protected readonly DbSet<TEntity> _dbSet;
+		protected readonly ICurrentUserService _currentUser;
+		public BaseService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser)
 		{
 			_context = applicationDBContext;
 
 			_dbSet = _context.Set<TEntity>();
+			_currentUser = currentUser;
 		}
 
 		public virtual async Task<TEntity?> GetByIdAsync(object id)

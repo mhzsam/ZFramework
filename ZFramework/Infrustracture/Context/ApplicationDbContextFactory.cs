@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Infrastructure.Context
 {
-	public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<AplicationDBContext>
+	public class ApplicationDbContextFactory : IDesignTimeDbContextFactory<ApplicationDBContext>
 	{
-		public AplicationDBContext CreateDbContext(string[] args)
+		public ApplicationDBContext CreateDbContext(string[] args)
 		{
 			// مسیر لایه Presentation (جایی که appsettings.json هست)
 			var basePath = Path.Combine(Directory.GetCurrentDirectory(), "../Presentation");
@@ -18,9 +18,9 @@ namespace Infrastructure.Context
 
 			var connectionString = configuration.GetConnectionString("SqlConnection");
 
-			var optionsBuilder = new DbContextOptionsBuilder<AplicationDBContext>();
+			var optionsBuilder = new DbContextOptionsBuilder<ApplicationDBContext>();
 			optionsBuilder.UseSqlServer(connectionString);
-			var context = new AplicationDBContext(optionsBuilder.Options);
+			var context = new ApplicationDBContext(optionsBuilder.Options);
 	
 			return context;
 		}

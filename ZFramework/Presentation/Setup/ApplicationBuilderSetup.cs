@@ -14,6 +14,7 @@ namespace Presentation.SetUp
 			app.UseAuthorization();
 			app.MapControllers();
 			app.UseMiddleware<ExceptionHandlingMiddleware>();
+			app.UseMiddleware<CurrentUserMiddleware>();
 			app.UseMiddleware<PermissionControlMiddleware>();
 			app.MapGet("/", context =>
 			{

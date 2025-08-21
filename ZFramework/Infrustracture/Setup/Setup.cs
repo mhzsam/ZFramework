@@ -18,7 +18,7 @@ namespace Infrastructure.SetUp
 
 		public static void AddApplicationDBContext(this IServiceCollection services, AppSettings appSettings)
 		{
-			services.AddDbContext<IApplicationDBContext,AplicationDBContext>(options =>
+			services.AddDbContext<IApplicationDBContext,ApplicationDBContext>(options =>
 			{
 				options.UseSqlServer(appSettings.ConnectionStrings.SqlConnection);
 			});

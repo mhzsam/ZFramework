@@ -75,7 +75,7 @@ namespace Presentation.SetUp
 		private static void AuthorizationControllerSeedData(this IServiceCollection services, AppSettings appSettings)
 		{
 
-			AplicationDBContext context = services.BuildServiceProvider().GetRequiredService<AplicationDBContext>();
+			ApplicationDBContext context = services.BuildServiceProvider().GetRequiredService<ApplicationDBContext>();
 			ProjectDetails projectDetails = appSettings.ProjectDetails;
 
 			//var tableExists = context.Database.CanConnect() &&

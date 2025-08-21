@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Context
 {
-	public class AplicationDBContext : DbContext, IApplicationDBContext
+	public class ApplicationDBContext : DbContext, IApplicationDBContext
 	{
-		public AplicationDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
+		public ApplicationDBContext(DbContextOptions dbContextOptions) : base(dbContextOptions)
 		{
 		}
 		public new DbSet<TEntity> Set<TEntity>() where TEntity : class => base.Set<TEntity>();
