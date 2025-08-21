@@ -4,7 +4,7 @@ using Domain.Entites;
 
 namespace Application.Service.UserService
 {
-	public interface IUserService : IBaseService<User>
+    public interface IUserService : IBaseService<User>
 	{
 
 		public Task<(bool result, string token)> Login(string Email, string PassWord);

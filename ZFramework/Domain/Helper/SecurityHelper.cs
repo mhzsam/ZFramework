@@ -10,6 +10,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Domain.Shared.Message;
+using Domain.Entites;
 
 namespace Domain.Helper
 {
@@ -35,7 +36,7 @@ namespace Domain.Helper
 
 			return Sb.ToString();
 		}
-		public static string GetNewToken(int userId)
+		public static string GetNewToken(TokenClaim tokenClaim)
 		{
 			if (_appSettings == null)
 				throw new CustomException(ErrorText.Auth.ConfigNotfound);
@@ -43,13 +44,11 @@ namespace Domain.Helper
 			var tokenHandler = new JwtSecurityTokenHandler();
 			var key = Encoding.UTF8.GetBytes(_appSettings.JWTConfig.TokenKey);
 
+
+
 			var tokenDescriptor = new SecurityTokenDescriptor
 			{
-				Subject = new ClaimsIdentity(new Claim[]
-				{
-						new Claim("userId", userId.ToString()),
-				}),
-
+				Subject = new ClaimsIdentity(tokenClaim.ToClaims()),
 				Expires = DateTime.UtcNow.AddMinutes(_appSettings.JWTConfig.TokenTimeOut),
 				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
 			};

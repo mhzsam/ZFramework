@@ -3,6 +3,7 @@ using Domain.Shared.Models;
 using Infrastructure.Context;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
@@ -46,8 +47,8 @@ namespace Infrastructure.Middleware
 			}
 
 			var projectName = "Presentation";
-			var controllerName = httpContext.Request.RouteValues["controller"]?.ToString() + "Controller";
-			var actionName = httpContext.Request.RouteValues["action"]?.ToString();
+			var controllerName = httpContext.GetRouteData().Values["controller"]?.ToString() + "Controller";
+			var actionName = httpContext.GetRouteData().Values["action"]?.ToString();
 			var methodName = httpContext.Request.Method;
 			var requestPermission = (projectName + "&" + controllerName + "&" + actionName + "&" + methodName).ToLower();
 
@@ -58,7 +59,7 @@ namespace Infrastructure.Middleware
 			{
 				using (var scope = _scopeFactory.CreateScope())
 				{
-					var _dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+					var _dbContext = scope.ServiceProvider.GetRequiredService<AplicationDBContext>();
 					var role = await _dbContext.UserRols.AsNoTracking().Where(s => s.UserId.ToString() == userId).Select(s => s.RoleId).ToListAsync();
 					var rolePermission = await _dbContext.RolePermissions.AsNoTracking().Where(s => role.Contains(s.RoleId)).Select(s => s.PermissionId).ToListAsync();
 					userPermission = await _dbContext.Permissions.AsNoTracking().Where(s => rolePermission.Contains(s.Id)).Select(s => s.ProjectName + "&" + s.ControllerName + "&" + s.ActionName + "&" + s.ActionMethod).ToListAsync();

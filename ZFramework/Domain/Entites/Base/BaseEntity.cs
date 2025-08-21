@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites.Base
 {
-	public class BaseEntity : EntityClass, IBaseEntity
+	public class BaseEntity: IBaseEntity
 	{
-
 
 		[DefaultValue(false)]
 		public bool IsDeleted { get; set; }

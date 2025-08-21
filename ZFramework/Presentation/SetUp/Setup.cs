@@ -5,7 +5,6 @@ using Infrastructure.Context;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Presentation.Controllers;
@@ -74,8 +73,16 @@ namespace Presentation.SetUp
 		}
 		private static void AuthorizationControllerSeedData(this IServiceCollection services, AppSettings appSettings)
 		{
-			ApplicationDBContext context = services.BuildServiceProvider().GetRequiredService<ApplicationDBContext>();
+
+			AplicationDBContext context = services.BuildServiceProvider().GetRequiredService<AplicationDBContext>();
 			ProjectDetails projectDetails = appSettings.ProjectDetails;
+
+			var tableExists = context.Database.CanConnect() &&
+						 context.Model.FindEntityType(typeof(Permission)) != null;
+
+			if (!tableExists)
+				return;
+
 
 			var controlleractionlist = Assembly.GetExecutingAssembly().GetTypes()
 			.Where(type => typeof(BaseController).IsAssignableFrom(type))

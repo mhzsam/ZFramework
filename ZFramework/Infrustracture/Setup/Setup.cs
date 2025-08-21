@@ -1,4 +1,5 @@
 ﻿using DocumentFormat.OpenXml.InkML;
+using Domain.Entites;
 using Domain.Shared.Interface;
 using Domain.Shared.Models;
 using Infrastructure.Context;
@@ -17,13 +18,12 @@ namespace Infrastructure.SetUp
 
 		public static void AddApplicationDBContext(this IServiceCollection services, AppSettings appSettings)
 		{
-			services.AddDbContext<ApplicationDBContext>(options =>
+			services.AddDbContext<IApplicationDBContext,AplicationDBContext>(options =>
 			{
-				options.UseSqlServer(appSettings.ConnectionStrings.SqlConnection.ToString());
+				options.UseSqlServer("Server=localhost,1433;Database=ZFramework;User Id=sa;Password=Zarrabi12345678!;TrustServerCertificate=True;");
 			});
 
-			services.AddScoped<IApplicationDBContext>(provider =>
-				provider.GetRequiredService<ApplicationDBContext>());
+			
 		}
 	}
 }

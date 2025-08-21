@@ -26,33 +26,31 @@ builder.Services.AddCors(o =>
 });
 
 var app = builder.Build();
-using (var scope = app.Services.CreateScope())
-{
-	var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
+//using (var scope = app.Services.CreateScope())
+//{
+//	try
+//	{
+//		var context = scope.ServiceProvider.GetRequiredService<ApplicationDBContext>();
 
-	try
-	{
-		var ff = context.Users.FirstOrDefault();
-		Console.WriteLine("⏳ در حال تست اتصال EF Core ...");
-		bool canConnect = context.Database.CanConnect();
-		Console.WriteLine(canConnect
-			? "✅ اتصال EF Core موفق بود!"
-			: "❌ اتصال EF Core برقرار نشد.");
-	}
-	catch (Exception ex)
-	{
-		Console.WriteLine("❌ خطای اتصال دیتابیس:");
-		Console.WriteLine(ex.Message);
-		Console.WriteLine("------ StackTrace ------");
-		Console.WriteLine(ex.StackTrace);
+//		Console.WriteLine("Testing database connection...");
+//		await context.Database.OpenConnectionAsync();
+//		Console.WriteLine("✅ Database connection successful!");
+//		await context.Database.CloseConnectionAsync();
 
-		if (ex.InnerException != null)
-		{
-			Console.WriteLine("------ InnerException ------");
-			Console.WriteLine(ex.InnerException.Message);
-			Console.WriteLine(ex.InnerException.StackTrace);
-		}
-	}
-}
+//		// تست ایجاد دیتابیس
+//		bool canConnect = await context.Database.CanConnectAsync();
+//		Console.WriteLine($"Can connect to database: {canConnect}");
+
+//		// بررسی وجود دیتابیس و ایجاد آن در صورت عدم وجود
+//		await context.Database.EnsureCreatedAsync();
+//		Console.WriteLine("✅ Database ensured created!");
+//	}
+//	catch (Exception ex)
+//	{
+//		Console.WriteLine($"❌ Database connection failed: {ex.Message}");
+//		Console.WriteLine($"❌ Inner exception: {ex.InnerException?.Message}");
+//	}
+//}
+
 app.UseAppMiddlewares();
 app.Run();

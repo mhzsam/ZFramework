@@ -1,20 +1,17 @@
-﻿using Domain.Entites.Base;
+﻿using Domain.Entites;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
-namespace Domain.Entites.Config
+namespace Infrastructure.Configurations
 {
 	public class UserConfiguration : BaseConfiguration<User>
 	{
 		public void Configure(EntityTypeBuilder<User> builder)
 		{
 			base.Configure(builder);
+			builder.HasKey(s => s.Id);
+			builder.Property(p => p.Id).ValueGeneratedOnAdd().IsRequired();
 			builder.Property(p => p.FirstName).HasMaxLength(64).IsRequired();
 			builder.Property(p => p.LastName).HasMaxLength(64).IsRequired();
 			builder.Property(p => p.MobileNumber).IsRequired();

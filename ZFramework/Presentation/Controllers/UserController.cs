@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Presentation.Controllers
 {
-	public class UserController : BaseController
+    public class UserController : BaseController
 	{
 
 		private readonly IUserService _userService;
