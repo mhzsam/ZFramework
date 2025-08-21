@@ -25,7 +25,7 @@ namespace Domain.Shared.Models
 				foreach (var role in Roles)
 				{
 					// اگه Role کلاس توی سیستم کلاس معمولی هست، اسمش یا Idش رو بگذار
-					claims.Add(new Claim("Roles", string.Join(",", Roles.Select(s => s.Id).ToList())));
+					claims.Add(new Claim(StaticKey.GetUserRolesClaimKey(), string.Join(",", Roles.Select(s => s.Id).ToList())));
 					// یا مثلا:
 					// claims.Add(new Claim("roleId", role.Id.ToString()));
 				}
@@ -40,7 +40,7 @@ namespace Domain.Shared.Models
 				}
 			}
 
-			claims.Add(new Claim("userId", Id.ToString()));
+			claims.Add(new Claim(StaticKey.GetUserClaimKey(), Id.ToString()));
 
 			return claims;
 		}

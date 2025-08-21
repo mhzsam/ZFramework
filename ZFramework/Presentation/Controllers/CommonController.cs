@@ -1,4 +1,5 @@
-﻿using Application.DTO.UserDto;
+﻿using Application.ApplicationService.CommonApplicationService;
+using Application.DTO.UserDto;
 using Application.Helper;
 using Domain.Entites;
 using Domain.Shared.Message;
@@ -12,11 +13,15 @@ namespace Presentation.Controllers
 	[AllowAnonymous]
 	public class CommonController : BaseController
 	{
+		private readonly ICommonApplicationService _commonApplicationService;
 
+		public CommonController(ICommonApplicationService commonApplicationService)
+		{
+			_commonApplicationService = commonApplicationService;
+		}
 
 		[HttpGet]
-		[Description(ControllerDescription.Common.GetCaptcha)]	
-		
+		[Description(ControllerDescription.Common.GetCaptcha)]
 		public ResponseModel<GetCaptchaModel> GetCaptcha()
 		{
 			GetCaptchaModel captcha = CaptchaHelper.GetCaptcha();
@@ -30,30 +35,25 @@ namespace Presentation.Controllers
 
 		[HttpPost]
 		[Description(ControllerDescription.Common.ValidateCaptcha)]
-
 		public ResponseModel ValidateCaptcha([FromBody] VaslidateCaptchaModel model)
 		{
 			if (CaptchaHelper.ValidateCaptcha(model))
 				return ResponseModel.Success();
 			return ResponseModel.Fail(ErrorText.General.Failed);
 		}
-		//[HttpPost]
-		//[Description(ControllerDescription.Common.SignUp)]
-		//public async Task<ResponseModel<User>> SingUp(AddUserModel addUserModel)
-		//{
-		//	User model = await _userService.SingUp(addUserModel);
-		//	return ResponseModel<User>.Success(model);
-		//}
-		//[HttpPost]
-		//[Description(ControllerDescription.Common.Login)]
-		//public async Task<ResponseModel<string>> Login(string email, string password)
-		//{
-		//	var model = await _userService.Login(email, password);
-		//	if (!model.result)
-		//	{
-		//		return ResponseModel<string>.Fail(ErrorText.General.NotFound);
-		//	}
-		//	return ResponseModel<string>.Success($"Bearer {model.token}");
-		//}
+
+		[HttpPost]
+		[Description(ControllerDescription.Common.SignUp)]
+		public async Task<ResponseModel<GetUserDto>> SingUp(AddUserModel addUserModel)
+		{
+			return await _commonApplicationService.SingUp(addUserModel);
+		}
+
+		[HttpPost]
+		[Description(ControllerDescription.Common.Login)]
+		public async Task<ResponseModel<string>> Login(string mobile, string password)
+		{
+			return await _commonApplicationService.Login(mobile, password);
+		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using Application.SetUp;
+using Domain.Helper;
 using Domain.Shared.Models;
 using Infrastructure.SetUp;
 using Presentation.SetUp;
@@ -6,6 +7,7 @@ using Presentation.SetUp;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AppSettings>(builder.Configuration);
 var appSettings = builder.Configuration.Get<AppSettings>();
+SecurityHelper.Configure(appSettings);
 
 builder.Services.SetUpApplicationLayer(appSettings);
 builder.Services.SetUpInfrastructureLayer(appSettings);

@@ -55,7 +55,7 @@ namespace Presentation.Middleware
 			var dbContext = scope.ServiceProvider.GetRequiredService<IApplicationDBContext>();
 
 			// تلاش برای خواندن از cache
-			var userPermission = await cacheService.GetAsync<List<ulong>>(CachKey.GetPermissionKey(userId));
+			var userPermission = await cacheService.GetAsync<List<ulong>>(StaticKey.GetPermissionKey(userId));
 			if (userPermission == null)
 			{
 				// گرفتن مجوزهای کاربر از دیتابیس
@@ -73,7 +73,7 @@ namespace Presentation.Middleware
 				// ذخیره‌سازی در cache برای 2 ساعت
 				var options = new DistributedCacheEntryOptions()
 					.SetAbsoluteExpiration(TimeSpan.FromHours(2));
-				await cacheService.SetAsync(CachKey.GetPermissionKey(userId), userPermission, options);
+				await cacheService.SetAsync(StaticKey.GetPermissionKey(userId), userPermission, options);
 			}
 
 			// بررسی وجود دسترسی

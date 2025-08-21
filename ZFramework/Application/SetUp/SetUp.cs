@@ -1,4 +1,5 @@
-﻿using Application.Service.Base;
+﻿using Application.ApplicationService.CommonApplicationService;
+using Application.Service.Base;
 using Application.Service.UserService;
 using Domain.Shared.Interface;
 using Domain.Shared.Models;
@@ -22,7 +23,9 @@ namespace Application.SetUp
 		}
 		private static void AddAllApplicationServices(this IServiceCollection services)
 		{
-			
+			services.AddScoped<ICommonApplicationService, CommonApplicationService>();
+
+			services.AddScoped<ICurrentUserService, CurrentUserService>();
 			services.AddScoped<IUserService, UserService>();
 
 		}
@@ -53,7 +56,7 @@ namespace Application.SetUp
 				});
 			}
 
-			
+
 		}
 		private static void AddDataAnnotationReturnData(this IServiceCollection services)
 		{
@@ -76,7 +79,7 @@ namespace Application.SetUp
 			   );
 
 		}
-		
+
 
 
 	}

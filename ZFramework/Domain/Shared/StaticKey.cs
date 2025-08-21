@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Shared
 {
-	public static class CachKey
+	public static class StaticKey
 	{
 		public static string GetPermissionKey(string userId) => "Permission_" + userId;
+		public static string GetUserClaimKey() => "userId";
+		public static string GetUserRolesClaimKey() => "Roles";
 	}
+
+
 }
