@@ -4,6 +4,7 @@ using Domain.Entites;
 using Domain.Shared.Message;
 using Domain.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace Presentation.Controllers
 {
@@ -18,6 +19,8 @@ namespace Presentation.Controllers
 		}
 
 		[HttpGet]
+		[Description(ControllerDescription.User.GetAll )]
+
 		public async Task<ResponseModel<List<User>>> GetAll()
 		{
 			List<User> model = await _userService.GetAllAsync();
@@ -25,21 +28,6 @@ namespace Presentation.Controllers
 			return ResponseModel<List<User>>.Success(model);
 		}
 
-		[HttpPost]
-		public async Task<ResponseModel<User>> SingUp(AddUserModel addUserModel)
-		{
-			User model = await _userService.SingUp(addUserModel);
-			return ResponseModel<User>.Success(model);
-		}
-		[HttpPost]
-		public async Task<ResponseModel<string>> Login(string email, string password)
-		{
-			var model = await _userService.Login(email, password);
-			if (!model.result)
-			{
-				return ResponseModel<string>.Fail(ErrorText.General.NotFound);
-			}
-			return ResponseModel<string>.Success($"Bearer {model.token}");
-		}
+		
 	}
 }

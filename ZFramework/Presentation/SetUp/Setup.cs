@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Presentation.Controllers;
 using SixLabors.ImageSharp;
+using System.ComponentModel;
 using System.Reflection;
 using System.Text;
 
@@ -77,11 +78,11 @@ namespace Presentation.SetUp
 			AplicationDBContext context = services.BuildServiceProvider().GetRequiredService<AplicationDBContext>();
 			ProjectDetails projectDetails = appSettings.ProjectDetails;
 
-			var tableExists = context.Database.CanConnect() &&
-						 context.Model.FindEntityType(typeof(Permission)) != null;
+			//var tableExists = context.Database.CanConnect() &&
+			//			 context.Model.FindEntityType(typeof(Permission)) != null;
 
-			if (!tableExists)
-				return;
+			//if (!tableExists)
+			//	return;
 
 
 			var controlleractionlist = Assembly.GetExecutingAssembly().GetTypes()
@@ -96,7 +97,9 @@ namespace Presentation.SetUp
 			|| attr.GetType() == typeof(HttpPutAttribute)
 			|| attr.GetType() == typeof(HttpPostAttribute)
 			|| attr.GetType() == typeof(HttpDeleteAttribute)
-			).FirstOrDefault().ToString().Split(".").LastOrDefault().Replace("Http", "").Replace("Attribute", "")
+			).FirstOrDefault().ToString().Split(".").LastOrDefault().Replace("Http", "").Replace("Attribute", ""),
+				Description=x.GetCustomAttribute<DescriptionAttribute>()?.Description
+
 			})
 			.OrderBy(x => x.Controller).ThenBy(x => x.Action).ToList();
 
@@ -108,7 +111,8 @@ namespace Presentation.SetUp
 					s.ProjectName == projectDetails.Title &&
 					s.ControllerName == p.Controller &&
 					s.ActionName == p.Action &&
-					s.ActionMethod == p.ActionMethod);
+					s.ActionMethod == p.ActionMethod					
+					);
 
 				if (existing == null)
 				{
@@ -119,15 +123,18 @@ namespace Presentation.SetUp
 						ControllerName = p.Controller,
 						ActionName = p.Action,
 						ActionMethod = p.ActionMethod,
-						CreateDateTime = DateTime.Now,
+						InsertDate = DateTime.Now,
 						IsActivee = true,
+						Description=p.Description
 					});
 				}
-				else if (!existing.IsActivee)
+				else if (!existing.IsActivee || existing.Description!=p.Description)
 				{
 					// فعال‌سازی مجدد
 					existing.IsActivee = true;
-					existing.ModifyDateTime = DateTime.Now;
+					existing.UpdateDate = DateTime.Now;
+					existing.UpdateBy = -1;
+					existing.Description = p.Description;
 					context.Permissions.Update(existing);
 				}
 			});
@@ -147,8 +154,10 @@ namespace Presentation.SetUp
 						ControllerName = p.ControllerName,
 						ActionName = p.ActionName,
 						ActionMethod = p.ActionMethod,
-						ModifyDateTime = DateTime.Now,
+						UpdateDate = DateTime.Now,
+						UpdateBy=-1,
 						IsActivee = false,
+						Description=p.Description
 					};
 
 					context.Permissions.Update(permission);

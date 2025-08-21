@@ -33,10 +33,11 @@ namespace Domain.Entites
         [Required(ErrorMessage = "مقدار نوع متد الزامی است ")]
         public string ActionMethod { get; set; }
 
-        public bool IsActivee { get; set; }
+		
+		public string? Description { get; set; }
 
-        public DateTime CreateDateTime { get; set; }
-        public DateTime? ModifyDateTime { get; set; } = null;
+		public bool IsActivee { get; set; }
+
 
     }
 }

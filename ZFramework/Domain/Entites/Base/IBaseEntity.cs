@@ -9,8 +9,7 @@ namespace Domain.Entites.Base
 	public interface IBaseEntity
 	{
 
-		bool IsDeleted { get; set; }
-		DateTime? DeletedDate { get; set; }
+		bool IsDeleted { get; set; }		
 		DateTime InsertDate { get; set; }
 		int InsertBy { get; set; }
 		DateTime? UpdateDate { get; set; }

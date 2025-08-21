@@ -13,6 +13,13 @@ namespace Domain.Shared.Models
 		public ConnectionStrings ConnectionStrings { get; set; } = new();
 		public Logging Logging { get; set; } = new();
 		public ProjectDetails ProjectDetails { get; set; } = new();
+		public CacheSettings CacheSettings { get; set; } = new();
+	}
+	public class CacheSettings
+	{
+		public string Provider { get; set; } = "Memory";
+		public string RedisConfiguration { get; set; }
+		public int DefaultExpirationSeconds { get; set; } = 300;
 	}
 	public class JwtConfig
 	{

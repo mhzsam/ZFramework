@@ -20,7 +20,7 @@ namespace Infrastructure.SetUp
 		{
 			services.AddDbContext<IApplicationDBContext,AplicationDBContext>(options =>
 			{
-				options.UseSqlServer("Server=localhost,1433;Database=ZFramework;User Id=sa;Password=Zarrabi12345678!;TrustServerCertificate=True;");
+				options.UseSqlServer(appSettings.ConnectionStrings.SqlConnection);
 			});
 
 			

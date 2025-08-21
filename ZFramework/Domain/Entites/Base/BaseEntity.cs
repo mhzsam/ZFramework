@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace Domain.Entites.Base
 {
-	public class BaseEntity: IBaseEntity
+	public class BaseEntity : IBaseEntity
 	{
 
 		[DefaultValue(false)]
 		public bool IsDeleted { get; set; }
 
-		public DateTime? DeletedDate { get; set; }
 
 		public DateTime InsertDate
 		{

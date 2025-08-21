@@ -1,6 +1,7 @@
 ﻿using Domain.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 
 namespace Presentation.Controllers
 {
@@ -10,6 +11,7 @@ namespace Presentation.Controllers
 
 
 		[HttpGet]
+		[Description("تست")]
 		public async Task<ResponseModel> GetAll(int PageNumber, int pageSize)
 		{
 
