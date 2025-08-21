@@ -23,7 +23,7 @@ namespace Application.ApplicationService.CommonApplicationService
 		{
 			var result = await _userService.LoginAsync(mobileNumber, password);
 			if (!result.result)
-				ResponseModel<string>.Fail(ErrorText.Auth.InvalidCredentials);
+				return ResponseModel<string>.Fail(ErrorText.Auth.InvalidCredentials);
 
 			return ResponseModel<string>.Success(result.token);
 

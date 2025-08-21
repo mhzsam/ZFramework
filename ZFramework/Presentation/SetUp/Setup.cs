@@ -172,10 +172,9 @@ namespace Presentation.SetUp
 		}
 		private static IServiceCollection AddJWT(this IServiceCollection services, AppSettings appSettings)
 		{
-
 			JwtConfig configs = appSettings.JWTConfig;
-			var key = Encoding.UTF8.GetBytes(configs.TokenKey);
-
+			var keyBytes = Convert.FromBase64String(configs.TokenKey);
+			var key = new SymmetricSecurityKey(keyBytes);
 
 			services.AddAuthentication(x =>
 			{
@@ -191,12 +190,31 @@ namespace Presentation.SetUp
 					ClockSkew = TimeSpan.FromMinutes(configs.TokenTimeOut),
 					ValidateLifetime = true,
 					ValidateIssuerSigningKey = true,
-					IssuerSigningKey = new SymmetricSecurityKey(key),
+					IssuerSigningKey = key,
 					ValidateIssuer = false,
 					ValidateAudience = false
 				};
-				x.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+
+				x.Events = new JwtBearerEvents
 				{
+					OnMessageReceived = context =>
+					{
+						var authHeader = context.Request.Headers["Authorization"].FirstOrDefault();
+						if (!string.IsNullOrEmpty(authHeader))
+						{
+							if (authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase))
+							{
+								// استاندارد → جدا کردن فقط توکن
+								context.Token = authHeader.Substring("Bearer ".Length).Trim();
+							}
+							else
+							{
+								// بدون پیشوند Bearer
+								context.Token = authHeader.Trim();
+							}
+						}
+						return Task.CompletedTask;
+					},
 					OnChallenge = async context =>
 					{
 						context.HandleResponse(); // جلوگیری از پاسخ پیش‌فرض
@@ -217,5 +235,6 @@ namespace Presentation.SetUp
 
 			return services;
 		}
+
 	}
 }

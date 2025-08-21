@@ -13,11 +13,11 @@ namespace Application.Service.Base
 		public HashSet<ulong>? Permissions { get; private set; }
 
 
-		public void SetUser(int? userId, HashSet<ulong>? permissions, List<int> roles)
+		public void SetUser(int? userId, HashSet<ulong>? permissions, List<int>? roles)
 		{
 			Permissions = permissions;
 			UserId = userId;
-			Roles = roles.ToList();
+			Roles = roles;
 		}
 	}
 }

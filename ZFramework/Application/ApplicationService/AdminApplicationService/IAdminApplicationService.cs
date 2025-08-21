@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Application.DTO.UserDto;
+using Domain.Shared.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +10,6 @@ namespace Application.ApplicationService.AdminApplicationService
 {
 	public interface IAdminApplicationService
 	{
+		Task<ResponseModel<List<GetUserDto>>> GetAllUserAsync();
 	}
 }

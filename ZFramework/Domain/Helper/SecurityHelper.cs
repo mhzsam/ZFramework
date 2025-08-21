@@ -42,7 +42,8 @@ namespace Domain.Helper
 				throw new CustomException(ErrorText.Auth.ConfigNotfound);
 
 			var tokenHandler = new JwtSecurityTokenHandler();
-			var key = Encoding.UTF8.GetBytes(_appSettings.JWTConfig.TokenKey);
+			var keyBytes = Convert.FromBase64String(_appSettings.JWTConfig.TokenKey);
+			var key = new SymmetricSecurityKey(keyBytes);
 
 
 
@@ -50,7 +51,7 @@ namespace Domain.Helper
 			{
 				Subject = new ClaimsIdentity(tokenClaim.ToClaims()),
 				Expires = DateTime.UtcNow.AddMinutes(_appSettings.JWTConfig.TokenTimeOut),
-				SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+				SigningCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature)
 			};
 
 			var token = tokenHandler.CreateToken(tokenDescriptor);

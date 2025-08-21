@@ -24,7 +24,7 @@ namespace Presentation.Controllers
 
 		[HttpGet]
 		[Description(ControllerDescription.User.GetAll)]
-		public async Task<ResponseModel<List<GetUserDto>>> GetAll()
+		public async Task<ResponseModel<List<User>>> GetAll()
 		{
 			var ff = _currentUserService.UserId;
 			var ff2 = _currentUserService.Roles;

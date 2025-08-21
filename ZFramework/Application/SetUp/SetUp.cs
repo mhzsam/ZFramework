@@ -1,4 +1,5 @@
-﻿using Application.ApplicationService.CommonApplicationService;
+﻿using Application.ApplicationService.AdminApplicationService;
+using Application.ApplicationService.CommonApplicationService;
 using Application.Service.Base;
 using Application.Service.UserService;
 using Domain.Shared.Interface;
@@ -24,6 +25,7 @@ namespace Application.SetUp
 		private static void AddAllApplicationServices(this IServiceCollection services)
 		{
 			services.AddScoped<ICommonApplicationService, CommonApplicationService>();
+			services.AddScoped<IAdminApplicationService, AdminApplicationService>();
 
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
 			services.AddScoped<IUserService, UserService>();

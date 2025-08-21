@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Presentation.Middleware;
-
-namespace Presentation.SetUp
+﻿namespace Presentation.SetUp
 {
 	public static class ApplicationBuilderExtensions
 	{
