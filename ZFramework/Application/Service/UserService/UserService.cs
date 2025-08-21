@@ -21,7 +21,6 @@ namespace Application.Service.UserService
 
 		public async Task<(bool result, string token)> LoginAsync(string Email, string PassWord)
 		{
-
 			var user = await _dbSet.Where(t => t.EmailAddress == Email.Trim()).FirstOrDefaultAsync();
 			if (user == null)
 			{
