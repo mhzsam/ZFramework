@@ -20,25 +20,27 @@ namespace Domain.Entites
 
         [MaxLength(100)]
         [Required(ErrorMessage = "نام الزامی است")]
-		[Queryable]
+		
 		public string FirstName { get; set; }
 
         [MaxLength(100)]
         [Required(ErrorMessage = "فامیلی الزامی است")]
-		[Queryable]
+		
 
 		public string LastName { get; set; }
 
         [Required(ErrorMessage = "شماره تماس الزامی است")]
         public string? MobileNumber { get; set; }
-		[Queryable]
+		
 		public string? NationalCode { get; set; }
-        public string? PhoneNumber { get; set; }
+		
+		public string? PhoneNumber { get; set; }
 
         public string? Avatar { get; set; }
         [MaxLength(100)]
         [Required(ErrorMessage = " ایمیل الزامی است")]
-        public string EmailAddress { get; set; }
+		
+		public string EmailAddress { get; set; }
         public string? Password { get; set; }
         public DateTime? LastLoginDate { get; set; }
         [DefaultValue(false)]
@@ -47,7 +49,7 @@ namespace Domain.Entites
         public bool IsActive { get; set; }
 
 
-		[Queryable]
+		
 		public List<UserRole> UserRoles { get; set; }
 
 

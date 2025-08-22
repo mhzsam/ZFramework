@@ -17,10 +17,10 @@ namespace Domain.Entites
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Required(ErrorMessage = "مقدار نقش الزامی است ")]
         [MaxLength(32)]
-		[Queryable]
+		
 		public string RoleName { get; set; }
         [DefaultValue(true)]
-		[Queryable]
+		
 		public bool IsActive { get; set; }
 
 		public List<RolePermission> RolePermissions { get; set; }

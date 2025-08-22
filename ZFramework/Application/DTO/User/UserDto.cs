@@ -27,7 +27,6 @@ namespace Application.DTO.User
 
 		public string? Avatar { get; set; }
 		public string EmailAddress { get; set; }
-		public string? Password { get; set; }
 		public List<UserRoleDto> UserRoles { get; set; }
 
 	}

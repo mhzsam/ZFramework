@@ -15,15 +15,15 @@ namespace Domain.Entites
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		[Required(ErrorMessage = "مقدار شناسه الزامی است ")]
-		[Queryable]
+		
 		public int Id { get; set; }
-		[Queryable]
+		
 		public int RoleId { get; set; }
-		[Queryable]
+		
 		public Role Role { get; set; }
-		[Queryable]
+		
 		public int UserId { get; set; }
-		[Queryable]
+		
 		public User user { get; set; }
 
 

@@ -1,4 +1,5 @@
-﻿using System.Linq.Dynamic.Core;
+﻿using Microsoft.VisualBasic;
+using System.Linq.Dynamic.Core;
 using System.Text.RegularExpressions;
 
 namespace Domain.Shared.QueryableEngin
@@ -26,20 +27,42 @@ namespace Domain.Shared.QueryableEngin
 		{
 			var result = new QueryValidationResult();
 
-			// جمع‌آوری لیست Propertyهای Root
+			// Root properties: case-insensitive dictionary
 			var rootProperties = typeof(T)
 				.GetProperties()
 				.Where(p => Attribute.IsDefined(p, typeof(QueryableAttribute)))
-				.ToDictionary(p => p.Name, p => p);
+				.SelectMany(p => new[]
+				{
+			p.Name, // PascalCase
+            char.ToLowerInvariant(p.Name[0]) + p.Name.Substring(1) // camelCase
+				})
+				.Distinct(StringComparer.OrdinalIgnoreCase)
+				.ToDictionary(name => name, name => name, StringComparer.OrdinalIgnoreCase);
 
-			// استخراج مسیرهای Navigation کامل
-			var navigationPaths = GetQueryablePaths(typeof(T));
+			// Navigation paths: case-insensitive hashset (+ pascal + camel)
+			var navigationPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+			foreach (var path in GetQueryablePaths(typeof(T)))
+			{
+				navigationPaths.Add(path);
+				var parts = path.Split('.');
+				var camelPath = string.Join(".", parts.Select(p => char.ToLowerInvariant(p[0]) + p.Substring(1)));
+				navigationPaths.Add(camelPath);
+			}
 
-			// استخراج تمام نام‌هایی که توی expression اومدن
+			// حذف مقادیر داخل کوتیشن
+			var noStrings = Regex.Replace(filterExpression ?? string.Empty, @"""[^""]*""", "");
+
+			// پترن استخراج
 			var propPattern = @"[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*";
-			var matches = Regex.Matches(filterExpression ?? string.Empty, propPattern)
-							   .Select(m => m.Value)
-							   .Distinct();
+
+			var matches = Regex.Matches(noStrings, propPattern)
+				.Cast<Match>()
+				.Select(m => m.Value)
+				.Select(v => v.Contains(".")
+					? Regex.Replace(v, @"\.(Contains|StartsWith|EndsWith)$", "")
+					: v)
+				.Where(v => v != "Contains" && v != "StartsWith" && v != "EndsWith")
+				.Distinct(StringComparer.OrdinalIgnoreCase);
 
 			foreach (var prop in matches)
 			{
@@ -53,20 +76,14 @@ namespace Domain.Shared.QueryableEngin
 				}
 				else
 				{
-					// Root property
+					// Root
 					var inRoot = rootProperties.ContainsKey(prop);
-					var inNav = navigationPaths.Any(p => p.Split('.')[0] == prop);
+					var inNav = navigationPaths.Any(p => p.Split('.')[0].Equals(prop, StringComparison.OrdinalIgnoreCase));
 
 					if (!inRoot)
-					{
 						result.Errors.Add($"Root property '{prop}' is not allowed.");
-					}
 					else if (inNav)
-					{
-						// اگر در هر دو وجود دارد، مشکلی نیست ولی ممکن است کاربر اشتباه کند
-						// اینجا فقط Conflict را ثبت می‌کنیم برای اطلاع
 						result.Errors.Add($"Ambiguous property '{prop}': also exists in navigation path. Specify full path if you mean navigation.");
-					}
 				}
 			}
 
@@ -105,9 +122,9 @@ namespace Domain.Shared.QueryableEngin
 		public static IQueryable<T> ApplyQuery<T>(this IQueryable<T> source, QueryParameters parameters)
 		{
 			// Validate
-			var validation = QueryValidator.Validate<T>(parameters.Filters);
-			if (!validation.IsValid)
-				throw new InvalidOperationException(string.Join("; ", validation.Errors));
+			//var validation = QueryValidator.Validate<T>(parameters.Filters);
+			//if (!validation.IsValid)
+			//	throw new InvalidOperationException(string.Join("; ", validation.Errors));
 
 			// Filtering
 			if (!string.IsNullOrWhiteSpace(parameters.Filters))
