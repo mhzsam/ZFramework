@@ -28,7 +28,7 @@ namespace Application.DTO.Role
 			RuleFor(x => x.RoleName)
 				.NotEmpty().WithMessage(ValidationMessages.Required("نام نقش"))
 				.MaximumLength(100).WithMessage(ValidationMessages.MaxLength("نام نقش", 100))
-				.MinimumLength(5).WithMessage(ValidationMessages.MinLength("نام نقش", 5));
+				.MinimumLength(3).WithMessage(ValidationMessages.MinLength("نام نقش", 3));
 		}
 	}
 }
