@@ -7,20 +7,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entites
 {
-    public class Role : BaseEntity
-    {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required(ErrorMessage = "مقدار شناسه الزامی است ")]
-        public int Id { get; set; }
+	public class Role : BaseEntity
+	{
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Required(ErrorMessage = "مقدار شناسه الزامی است ")]
+		[Queryable]
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Required(ErrorMessage = "مقدار نقش الزامی است ")]
-        [MaxLength(32)]
-		
+		public int Id { get; set; }
+
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		[Required(ErrorMessage = "مقدار نقش الزامی است ")]
+		[MaxLength(32)]
+
 		public string RoleName { get; set; }
-        [DefaultValue(true)]
-		
+		[DefaultValue(true)]
+
 		public bool IsActive { get; set; }
 
 		public List<RolePermission> RolePermissions { get; set; }

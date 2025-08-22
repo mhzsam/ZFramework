@@ -4,6 +4,7 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class AplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250822143709_super_admin")]
+    partial class super_admin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,7 +123,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = -1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 171, DateTimeKind.Local).AddTicks(6408),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 166, DateTimeKind.Local).AddTicks(1537),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "SuperAdmin"
@@ -129,7 +132,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 171, DateTimeKind.Local).AddTicks(6592),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 166, DateTimeKind.Local).AddTicks(1784),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "Admin"
@@ -138,7 +141,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 2,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 171, DateTimeKind.Local).AddTicks(6727),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 166, DateTimeKind.Local).AddTicks(1914),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "Manager"
@@ -147,7 +150,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 3,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 171, DateTimeKind.Local).AddTicks(6848),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 166, DateTimeKind.Local).AddTicks(2037),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "User"
@@ -278,7 +281,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Mohammad",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 171, DateTimeKind.Local).AddTicks(9313),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(1092),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Zarrabi",
@@ -292,7 +295,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Ali",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 171, DateTimeKind.Local).AddTicks(9719),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(1504),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Rezaei",
@@ -306,7 +309,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Sara",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(111),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(1853),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Ahmadi",
@@ -320,7 +323,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Hossein",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(454),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(2228),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Karimi",
@@ -334,7 +337,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Mina",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(796),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(2562),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Rahimi",
@@ -348,7 +351,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Reza",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(1250),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(2897),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Akbari",
@@ -362,7 +365,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Neda",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(1583),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(3231),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Moradi",
@@ -376,7 +379,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Hamed",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(1942),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(3576),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Kazemi",
@@ -390,7 +393,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Maryam",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(2292),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(3908),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Shahbazi",
@@ -404,7 +407,7 @@ namespace Infrastructure.Migrations
                             FirstName = "Farid",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(2627),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(4260),
                             IsActive = false,
                             IsDeleted = false,
                             LastName = "Taheri",
@@ -459,7 +462,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(5171),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(6791),
                             IsDeleted = false,
                             RoleId = -1,
                             UserId = 1
@@ -468,7 +471,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 2,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(5356),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7013),
                             IsDeleted = false,
                             RoleId = 1,
                             UserId = 1
@@ -477,7 +480,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 3,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(5504),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7162),
                             IsDeleted = false,
                             RoleId = 2,
                             UserId = 2
@@ -486,7 +489,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 4,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(5640),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7297),
                             IsDeleted = false,
                             RoleId = 1,
                             UserId = 3
@@ -495,7 +498,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 5,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(5783),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7439),
                             IsDeleted = false,
                             RoleId = 3,
                             UserId = 4
@@ -504,7 +507,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 6,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(5922),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7583),
                             IsDeleted = false,
                             RoleId = 2,
                             UserId = 5
@@ -513,7 +516,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 7,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(6061),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7724),
                             IsDeleted = false,
                             RoleId = 2,
                             UserId = 6
@@ -522,7 +525,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 8,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(6197),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(7872),
                             IsDeleted = false,
                             RoleId = 3,
                             UserId = 7
@@ -531,7 +534,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 9,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(6493),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(8040),
                             IsDeleted = false,
                             RoleId = 3,
                             UserId = 8
@@ -540,7 +543,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 10,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(6636),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(8179),
                             IsDeleted = false,
                             RoleId = 3,
                             UserId = 9
@@ -549,7 +552,7 @@ namespace Infrastructure.Migrations
                         {
                             Id = 11,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 172, DateTimeKind.Local).AddTicks(6777),
+                            InsertDate = new DateTime(2025, 8, 22, 18, 7, 9, 167, DateTimeKind.Local).AddTicks(8323),
                             IsDeleted = false,
                             RoleId = 2,
                             UserId = 10

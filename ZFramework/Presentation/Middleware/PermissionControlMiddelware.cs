@@ -1,5 +1,6 @@
 ﻿using Application.Service.Base;
 using Domain.Helper;
+using Domain.Shared.Enums;
 using Domain.Shared.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
@@ -25,7 +26,7 @@ public class PermissionControlMiddleware
 			await _next(context);
 			return;
 		}
-		if (currentUserService?.Roles?.Count > 0 && currentUserService.Roles.Any(s => s == 1))
+		if (currentUserService?.Roles?.Count > 0 && currentUserService.Roles.Any(s => s == DefaultRole.SuperAdmin.ToInt()))
 		{
 			await _next(context);
 			return;
