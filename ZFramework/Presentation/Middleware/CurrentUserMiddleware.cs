@@ -48,7 +48,9 @@ public class CurrentUserMiddleware
 				new DistributedCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromHours(2))
 			);
 		}
-		List<int>? lstUserRole = context.User.Claims.FirstOrDefault(c => c.Type == StaticKey.GetUserRolesClaimKey())?.Value?.Split(",")?.Select(s => s.ToInt())?.ToList();
+		var lstUserRole = context.User.Claims.Where(c => c.Type == StaticKey.GetUserRolesClaimKey())?
+										     .Select(s=>s.Value.ToInt())?
+											 .ToList();
 
 		currentUserService.SetUser(userId.ToInt(), permissions, lstUserRole);
 

@@ -1,10 +1,12 @@
-﻿using Application.DTO.UserDto;
+﻿using Application.DTO.User;
 using Application.Service.Base;
 using Application.Service.UserService;
 using Domain.Entites;
 using Domain.Shared.Interface;
 using Domain.Shared.Models;
+using Domain.Shared.QueryableEngin;
 using Mapster;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,14 +24,22 @@ namespace Application.ApplicationService.AdminApplicationService
 		}
 
 
-		public async Task<ResponseModel<List<GetUserDto>>> GetAllUserAsync()
+		public async Task<ResponseModel<List<UserDto>>> GetAllUserAsync()
 		{
 			List<User> lstUser = await _userService.GetAllAsync();
 			if (lstUser == null)
-				return ResponseModel<List<GetUserDto>>.Success(default);
+				return ResponseModel<List<UserDto>>.Success();
 
-			List<GetUserDto> result = lstUser.Adapt<List<GetUserDto>>();
-			return ResponseModel<List<GetUserDto>>.Success(result);
+			List<UserDto> result = lstUser.Adapt<List<UserDto>>();
+			return ResponseModel<List<UserDto>>.Success(result);
+		}
+		public async Task<PagingResponseModel<UserDto>> GetPagedUserAsync(QueryParameters queryParameters)
+		{
+			PagingResponseModel<User>? pagUser = await _userService.GetPagedAsync(queryParameters, o => o.Include(i => i.UserRoles).ThenInclude(t => t.Role));
+			if (pagUser == null)
+				return PagingResponseModel<UserDto>.Success();
+			var res = pagUser.MapTo<User, UserDto>();
+			return res;
 		}
 	}
 }

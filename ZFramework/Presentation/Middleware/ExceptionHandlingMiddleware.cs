@@ -23,18 +23,27 @@ public class ExceptionHandlingMiddleware
 		}
 		catch (Exception ex)
 		{
+			context.Response.ContentType = "application/json";
 
-			context.Response.ContentType = ContentTypes.Json;
-			context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-			ResponseModel? result = null;
+			int statusCode = ex switch
+			{
+				UnauthorizedAccessException => (int)HttpStatusCode.Unauthorized,
+				CustomException => (int)HttpStatusCode.BadRequest,
+				_ => (int)HttpStatusCode.InternalServerError
+			};
 
-			if (ex is CustomException)
-				result = ResponseModel.Fail(ex.Message, JsonSerializer.Serialize(ex.InnerException));
-			else
-				result = ResponseModel.Fail(ErrorText.Network.InternalServerError, ex.Message + "\n" + ex.InnerException ?? string.Empty);
+			context.Response.StatusCode = statusCode;
+
+			ResponseModel? result = ex switch
+			{
+				CustomException => ResponseModel.Fail(ex.Message, JsonSerializer.Serialize(ex.InnerException)),
+				UnauthorizedAccessException => ResponseModel.Fail(ErrorText.Auth.Unauthorized, ex.Message),
+				_ => ResponseModel.Fail(ErrorText.Network.InternalServerError, ex.Message + "\n" + ex.InnerException ?? string.Empty)
+			};
 
 			if (result != null)
 				await context.Response.WriteAsJsonAsync(result);
 		}
+
 	}
 }

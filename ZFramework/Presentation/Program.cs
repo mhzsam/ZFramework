@@ -2,18 +2,26 @@
 using Domain.Helper;
 using Domain.Shared.Models;
 using Infrastructure.SetUp;
+using Mapster;
 using Presentation.SetUp;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<AppSettings>(builder.Configuration);
 var appSettings = builder.Configuration.Get<AppSettings>();
 SecurityHelper.Configure(appSettings);
+HashIdHelper.Configure(appSettings);
 
 builder.Services.SetUpApplicationLayer(appSettings);
 builder.Services.SetUpInfrastructureLayer(appSettings);
 builder.Services.SetupPresentationLayer(appSettings);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddJsonOptions(o =>
+{
+	o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+	o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddCors(o =>
 {

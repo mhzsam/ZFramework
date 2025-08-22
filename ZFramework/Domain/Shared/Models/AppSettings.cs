@@ -44,5 +44,6 @@ namespace Domain.Shared.Models
 	{
 		public string Title { get; set; } = string.Empty;
 		public int? version { get; set; } = null;
+		public string? HashKey { get; set; } = string.Empty;
 	}
 }

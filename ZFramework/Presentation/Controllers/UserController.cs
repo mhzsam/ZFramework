@@ -1,5 +1,4 @@
-﻿using Application.DTO.UserDto;
-using Application.Service.Base;
+﻿using Application.Service.Base;
 using Application.Service.UserService;
 using Domain.Entites;
 using Domain.Shared.Message;

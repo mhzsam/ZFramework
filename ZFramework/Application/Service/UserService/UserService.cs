@@ -1,4 +1,4 @@
-﻿using Application.DTO.UserDto;
+﻿using Application.DTO.User;
 using Application.Helper;
 using Application.Service.Base;
 using Domain.Entites;
@@ -21,7 +21,7 @@ namespace Application.Service.UserService
 
 		public async Task<(bool result, string token)> LoginAsync(string mobile, string PassWord)
 		{
-			var user = await _dbSet.Where(t => t.MobileNumber == mobile.Trim()).FirstOrDefaultAsync();
+			var user = await _dbSet.Where(t => t.MobileNumber == mobile.Trim()).Include(I=>I.UserRoles).ThenInclude(t=>t.Role).FirstOrDefaultAsync();
 			if (user == null)
 			{
 				return (false, "");
@@ -31,7 +31,8 @@ namespace Application.Service.UserService
 			{
 				return (false, "");
 			}
-			var token = SecurityHelper.GetNewToken(new TokenClaim(user.Id));
+			var role = user.UserRoles.Select(s => s.Role).ToList();
+			var token = SecurityHelper.GetNewToken(new TokenClaim(user.Id, role));
 			return (true, token);
 
 		}

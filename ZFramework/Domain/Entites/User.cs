@@ -1,4 +1,5 @@
 ﻿using Domain.Entites.Base;
+using Domain.Shared.QueryableEngin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -19,16 +20,19 @@ namespace Domain.Entites
 
         [MaxLength(100)]
         [Required(ErrorMessage = "نام الزامی است")]
-        public string FirstName { get; set; }
+		[Queryable]
+		public string FirstName { get; set; }
 
         [MaxLength(100)]
         [Required(ErrorMessage = "فامیلی الزامی است")]
+		[Queryable]
 
-        public string LastName { get; set; }
+		public string LastName { get; set; }
 
         [Required(ErrorMessage = "شماره تماس الزامی است")]
         public string? MobileNumber { get; set; }
-        public string? NationalCode { get; set; }
+		[Queryable]
+		public string? NationalCode { get; set; }
         public string? PhoneNumber { get; set; }
 
         public string? Avatar { get; set; }
@@ -43,8 +47,8 @@ namespace Domain.Entites
         public bool IsActive { get; set; }
 
 
-
-        public List<UserRole> UserRoles { get; set; }
+		[Queryable]
+		public List<UserRole> UserRoles { get; set; }
 
 
 

@@ -10,6 +10,8 @@
 
 	<ItemGroup>
 		
+		<PackageReference Include="Azure.Identity" Version="1.14.2" />
+		
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.8" />
 		
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.8">

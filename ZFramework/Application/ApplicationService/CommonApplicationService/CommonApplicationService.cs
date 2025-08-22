@@ -1,4 +1,4 @@
-﻿using Application.DTO.UserDto;
+﻿using Application.DTO.User;
 using Application.Helper;
 using Application.Service.Base;
 using Application.Service.UserService;
@@ -29,15 +29,15 @@ namespace Application.ApplicationService.CommonApplicationService
 
 		}
 
-		public async Task<ResponseModel<GetUserDto>> SingUp(AddUserModel addUserModel)
+		public async Task<ResponseModel<UserDto>> SingUp(AddUserModel addUserModel)
 		{
 			var result = await _userService.SingUp(addUserModel);
 			if (result == null)
-				ResponseModel<GetUserDto>.Fail(ErrorText.System.UnexpectedError);
+				ResponseModel<UserDto>.Fail(ErrorText.System.UnexpectedError);
 
-			GetUserDto getUserDto = result?.Adapt<GetUserDto>();
+			UserDto getUserDto = result?.Adapt<UserDto>();
 
-			return ResponseModel<GetUserDto>.Success(getUserDto);
+			return ResponseModel<UserDto>.Success(getUserDto);
 
 		}
 	}

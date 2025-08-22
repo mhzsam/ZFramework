@@ -1,10 +1,11 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
-using Application.DTO.UserDto;
+using Application.DTO.User;
 using Application.Service.Base;
 using Application.Service.UserService;
 using Domain.Entites;
 using Domain.Shared.Message;
 using Domain.Shared.Models;
+using Domain.Shared.QueryableEngin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
@@ -21,11 +22,11 @@ namespace Presentation.Controllers
 			_adminApplicationService = adminApplicationService;
 		}
 
-		[HttpGet]
+		[HttpPost]
 		[Description(ControllerDescription.User.GetAll)]
-		public async Task<ResponseModel<List<GetUserDto>>> GetAllUser()
+		public async Task<PagingResponseModel<UserDto>> GetAllUser(QueryParameters queryParameters)
 		{
-			return await _adminApplicationService.GetAllUserAsync();
+			return await _adminApplicationService.GetPagedUserAsync(queryParameters);
 		}
 
 

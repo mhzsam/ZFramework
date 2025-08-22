@@ -25,7 +25,7 @@ namespace Domain.Shared.Models
 				foreach (var role in Roles)
 				{
 					// اگه Role کلاس توی سیستم کلاس معمولی هست، اسمش یا Idش رو بگذار
-					claims.Add(new Claim(StaticKey.GetUserRolesClaimKey(), string.Join(",", Roles.Select(s => s.Id).ToList())));
+					claims.Add(new Claim(StaticKey.GetUserRolesClaimKey(), role.Id.ToString()));
 					// یا مثلا:
 					// claims.Add(new Claim("roleId", role.Id.ToString()));
 				}

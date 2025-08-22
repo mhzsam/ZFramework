@@ -1,5 +1,5 @@
 ﻿using Application.ApplicationService.CommonApplicationService;
-using Application.DTO.UserDto;
+using Application.DTO.User;
 using Application.Helper;
 using Domain.Entites;
 using Domain.Shared.Message;
@@ -44,7 +44,7 @@ namespace Presentation.Controllers
 
 		[HttpPost]
 		[Description(ControllerDescription.Common.SignUp)]
-		public async Task<ResponseModel<GetUserDto>> SingUp(AddUserModel addUserModel)
+		public async Task<ResponseModel<UserDto>> SingUp(AddUserModel addUserModel)
 		{
 			return await _commonApplicationService.SingUp(addUserModel);
 		}

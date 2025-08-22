@@ -25,6 +25,11 @@ public class PermissionControlMiddleware
 			await _next(context);
 			return;
 		}
+		if (currentUserService?.Roles?.Count > 0 && currentUserService.Roles.Any(s => s == 1))
+		{
+			await _next(context);
+			return;
+		}
 
 		if (context.User?.Identity?.IsAuthenticated != true)
 			throw new UnauthorizedAccessException();

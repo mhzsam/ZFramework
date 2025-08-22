@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Domain.Shared.Models;
+using Domain.Shared.QueryableEngin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +15,6 @@ namespace Application.Service.Base
 		Task<TEntity> AddAsync(TEntity entity);
 		Task UpdateAsync(TEntity entity);
 		Task DeleteAsync(TEntity entity);
+		Task<PagingResponseModel<TEntity>?> GetPagedAsync(QueryParameters parameters, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null);
 	}
 }

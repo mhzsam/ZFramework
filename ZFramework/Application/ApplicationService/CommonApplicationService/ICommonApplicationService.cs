@@ -1,4 +1,4 @@
-﻿using Application.DTO.UserDto;
+﻿using Application.DTO.User;
 using Domain.Shared.Models;
 using System;
 using System.Collections.Generic;
@@ -11,6 +11,6 @@ namespace Application.ApplicationService.CommonApplicationService
 	public interface ICommonApplicationService
 	{
 		Task<ResponseModel<string>> Login(string mobileNumber, string password);
-		Task<ResponseModel<GetUserDto>> SingUp(AddUserModel addUserModel);
+		Task<ResponseModel<UserDto>> SingUp(AddUserModel addUserModel);
 	}
 }

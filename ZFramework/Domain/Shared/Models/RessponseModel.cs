@@ -1,17 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Mapster;
 
 namespace Domain.Shared.Models
 {
 	public record ResponseModel(
-	bool IsSucceeded,
-	List<string>? Errors,
-	string? ErrorDescription
-)
+		bool IsSucceeded,
+		List<string>? Errors,
+		string? ErrorDescription
+	)
 	{
 		public static ResponseModel Success()
 			=> new(true, null, null);
@@ -21,57 +16,70 @@ namespace Domain.Shared.Models
 
 		public static ResponseModel Fail(List<string>? errors, string? desc = null)
 			=> new(false, errors, desc);
-
 	}
+
 	public record ResponseModel<T>(
-	 bool IsSucceeded,
-	 T Result,
-	 List<string>? Errors,
-	 string? ErrorDescription
- )
+		bool IsSucceeded,
+		T Result,
+		List<string>? Errors,
+		string? ErrorDescription
+	)
 	{
-		// موفق با نتیجه
 		public static ResponseModel<T> Success(T result)
 			=> new(true, result, null, null);
 
-		// موفق بدون نتیجه
 		public static ResponseModel<T> Success()
 			=> new(true, default, null, null);
 
-		// شکست با یک پیام
 		public static ResponseModel<T> Fail(string error, string? errorDescription = null)
 			=> Fail(new List<string> { error }, errorDescription);
 
-		// شکست با چند پیام
 		public static ResponseModel<T> Fail(List<string> errors, string? errorDescription = null)
 			=> new(false, default, errors, errorDescription);
 	}
 
 	public record Pagination(int TotalItems, int PageNumber, int PageSize);
 
-	public record ResponseModelWithPagination<T>(
+	public record PagingResponseModel<T>(
 		bool IsSucceeded,
-		T Result,
+		IEnumerable<T> Result,
 		Pagination Pagination,
 		List<string> Errors,
 		string? ErrorDescription
 	)
 	{
-		public static ResponseModelWithPagination<T> Success(
-			T result, int totalItems, int pageNumber, int pageSize
+		public static PagingResponseModel<T> Success(
+			IEnumerable<T> result, int totalItems, int pageNumber, int pageSize
 		)
 			=> new(true, result, new Pagination(totalItems, pageNumber, pageSize), null, null);
 
-		public static ResponseModelWithPagination<T> Fail(
-			string error,
-			string? errorDescription
-		)
+		public static PagingResponseModel<T> Success()
+			=> new(true, default, new Pagination(0, 0, 0), null, null);
+
+		public static PagingResponseModel<T> Fail(string error, string? errorDescription = null)
 			=> Fail(new List<string> { error }, errorDescription);
 
-		public static ResponseModelWithPagination<T> Fail(
-			List<string> errors,
-			string? errorDescription = null
-		)
+		public static PagingResponseModel<T> Fail(List<string> errors, string? errorDescription = null)
 			=> new(false, default, null, errors, errorDescription);
+	}
+
+
+	public static class PagingResponseExtensions
+	{
+		public static PagingResponseModel<TDestination> MapTo<TSource, TDestination>(
+			this PagingResponseModel<TSource> source
+		)
+		{
+			if (source == null)
+				throw new ArgumentNullException(nameof(source));
+
+			return new PagingResponseModel<TDestination>(
+				source.IsSucceeded,
+				source.Result?.Adapt<IEnumerable<TDestination>>(),
+				source.Pagination,
+				source.Errors,
+				source.ErrorDescription
+			);
+		}
 	}
 }
