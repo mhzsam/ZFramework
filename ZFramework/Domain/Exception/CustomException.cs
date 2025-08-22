@@ -8,7 +8,7 @@ namespace Domain.Exception
 {
 	public class CustomException : System.Exception
 	{
-		public int StatusCode { get; } = 500; // می‌تونی Default بذاری
+		public int StatusCode { get; } = 400; // می‌تونی Default بذاری
 		public object? AdditionalData { get; }
 
 		public CustomException(string message)

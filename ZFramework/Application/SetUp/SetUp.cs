@@ -1,14 +1,17 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
 using Application.ApplicationService.CommonApplicationService;
+using Application.DTO.Role;
 using Application.Service.Base;
+using Application.Service.RoleService;
 using Application.Service.UserService;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Domain.Shared.Interface;
 using Domain.Shared.Models;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
-
 namespace Application.SetUp
 {
 	public static class SetUp
@@ -16,6 +19,7 @@ namespace Application.SetUp
 		public static void SetUpApplicationLayer(this IServiceCollection services, AppSettings appSettings)
 		{
 			AddAllApplicationServices(services);
+			AddValidatorServices(services);
 			AddDataAnnotationReturnData(services);
 			AddCacheServices(services, appSettings.CacheSettings);
 
@@ -29,6 +33,13 @@ namespace Application.SetUp
 
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
 			services.AddScoped<IUserService, UserService>();
+			services.AddScoped<IRoleService, RoleService>();
+
+		}
+		private static void AddValidatorServices(this IServiceCollection services)
+		{
+			services.AddValidatorsFromAssemblyContaining<RoleDtoValidator>();
+
 
 		}
 		public static void AddCacheServices(this IServiceCollection services, CacheSettings cacheSettings)

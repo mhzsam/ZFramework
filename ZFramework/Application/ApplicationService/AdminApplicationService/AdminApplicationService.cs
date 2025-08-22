@@ -1,5 +1,7 @@
-﻿using Application.DTO.User;
+﻿using Application.DTO.Role;
+using Application.DTO.User;
 using Application.Service.Base;
+using Application.Service.RoleService;
 using Application.Service.UserService;
 using Domain.Entites;
 using Domain.Shared.Interface;
@@ -18,9 +20,11 @@ namespace Application.ApplicationService.AdminApplicationService
 	public class AdminApplicationService : BaseApplicationService, IAdminApplicationService
 	{
 		private readonly IUserService _userService;
-		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService) : base(applicationDBContext, currentUser)
+		private readonly IRoleService _RoleService;
+		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService, IRoleService roleService) : base(applicationDBContext, currentUser)
 		{
 			_userService = userService;
+			_RoleService = roleService;
 		}
 
 
@@ -40,6 +44,11 @@ namespace Application.ApplicationService.AdminApplicationService
 				return PagingResponseModel<UserDto>.Success();
 			var res = pagUser.MapTo<User, UserDto>();
 			return res;
+		}
+		public async Task<ResponseModel<RoleDto>> AddOrUpdateRoleAsync(RoleDto roleDto)
+		{
+
+			return await _RoleService.AddOrUpdateRoleAsync(roleDto);
 		}
 	}
 }

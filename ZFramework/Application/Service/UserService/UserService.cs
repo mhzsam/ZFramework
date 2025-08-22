@@ -21,7 +21,7 @@ namespace Application.Service.UserService
 
 		public async Task<(bool result, string token)> LoginAsync(string mobile, string PassWord)
 		{
-			var user = await _dbSet.Where(t => t.MobileNumber == mobile.Trim()).Include(I=>I.UserRoles).ThenInclude(t=>t.Role).FirstOrDefaultAsync();
+			var user = await _dbSet.Where(t => t.MobileNumber == mobile.Trim()).Include(I => I.UserRoles).ThenInclude(t => t.Role).FirstOrDefaultAsync();
 			if (user == null)
 			{
 				return (false, "");
@@ -48,7 +48,7 @@ namespace Application.Service.UserService
 			return user;
 
 		}
-		
+
 
 	}
 }

@@ -3,6 +3,7 @@ using Domain.Helper;
 using Domain.Shared.Models;
 using Infrastructure.SetUp;
 using Mapster;
+using Microsoft.Extensions.Options;
 using Presentation.SetUp;
 using System.Text.Json.Serialization;
 
@@ -16,7 +17,10 @@ builder.Services.SetUpApplicationLayer(appSettings);
 builder.Services.SetUpInfrastructureLayer(appSettings);
 builder.Services.SetupPresentationLayer(appSettings);
 
-builder.Services.AddControllers().AddJsonOptions(o =>
+builder.Services.AddControllers(o =>
+{
+	o.Filters.Add<ValidationFilter>();
+}).AddJsonOptions(o =>
 {
 	o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 	o.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;

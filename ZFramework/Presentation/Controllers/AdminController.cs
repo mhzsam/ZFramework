@@ -1,4 +1,5 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
+using Application.DTO.Role;
 using Application.DTO.User;
 using Application.Service.Base;
 using Application.Service.UserService;
@@ -8,6 +9,7 @@ using Domain.Shared.Models;
 using Domain.Shared.QueryableEngin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Presentation.Extensions;
 using System.ComponentModel;
 
 namespace Presentation.Controllers
@@ -29,6 +31,11 @@ namespace Presentation.Controllers
 			return await _adminApplicationService.GetPagedUserAsync(queryParameters);
 		}
 
-
+		[HttpPost]
+		[Description(ControllerDescription.User.GetAll)]
+		public async Task<ResponseModel<RoleDto>> AddOrUpdateRole(RoleDto roleDto)
+		{
+			return await _adminApplicationService.AddOrUpdateRoleAsync(roleDto);
+		}
 	}
 }

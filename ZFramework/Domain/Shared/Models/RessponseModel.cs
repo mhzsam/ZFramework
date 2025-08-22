@@ -36,6 +36,8 @@ namespace Domain.Shared.Models
 
 		public static ResponseModel<T> Fail(List<string> errors, string? errorDescription = null)
 			=> new(false, default, errors, errorDescription);
+
+
 	}
 
 	public record Pagination(int TotalItems, int PageNumber, int PageSize);

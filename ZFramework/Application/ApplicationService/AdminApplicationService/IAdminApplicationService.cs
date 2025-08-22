@@ -1,4 +1,5 @@
-﻿using Application.DTO.User;
+﻿using Application.DTO.Role;
+using Application.DTO.User;
 using Domain.Shared.Models;
 using Domain.Shared.QueryableEngin;
 using System;
@@ -11,6 +12,7 @@ namespace Application.ApplicationService.AdminApplicationService
 {
 	public interface IAdminApplicationService
 	{
+		Task<ResponseModel<RoleDto>> AddOrUpdateRoleAsync(RoleDto roleDto);
 		Task<ResponseModel<List<UserDto>>> GetAllUserAsync();
 		Task<PagingResponseModel<UserDto>> GetPagedUserAsync(QueryParameters queryParameters);
 	}
