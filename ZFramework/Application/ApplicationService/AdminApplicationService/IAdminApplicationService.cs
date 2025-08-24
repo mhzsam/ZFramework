@@ -13,7 +13,8 @@ namespace Application.ApplicationService.AdminApplicationService
 	public interface IAdminApplicationService
 	{
 		Task<ResponseModel<RoleDto>> AddOrUpdateRoleAsync(RoleDto roleDto);
+		Task<ResponseModel<List<RoleDto>>> GetAllActiveRoleAsync(string? searchTitle);
 		Task<ResponseModel<List<UserDto>>> GetAllUserAsync();
-		Task<PagingResponseModel<UserDto>> GetPagedUserAsync(QueryParameters queryParameters);
+		Task<PagingResponseModel<UserDto>> GetPagedActiveUserAsync(QueryParameters queryParameters);
 	}
 }

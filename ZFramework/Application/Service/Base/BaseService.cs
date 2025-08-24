@@ -3,6 +3,7 @@ using Domain.Shared.Models;
 using Domain.Shared.QueryableEngin;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Application.Service.Base
 {
@@ -70,5 +71,13 @@ namespace Application.Service.Base
 		{
 			_context.SaveChanges();
 		}
+
+		public async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate)
+		{
+			if (predicate == null)
+				return await GetAllAsync();
+			return await _dbSet.Where(predicate).AsNoTracking().ToListAsync();
+		}
+
 	}
 }

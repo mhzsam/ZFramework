@@ -20,11 +20,11 @@ namespace Application.ApplicationService.AdminApplicationService
 	public class AdminApplicationService : BaseApplicationService, IAdminApplicationService
 	{
 		private readonly IUserService _userService;
-		private readonly IRoleService _RoleService;
+		private readonly IRoleService _roleService;
 		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService, IRoleService roleService) : base(applicationDBContext, currentUser)
 		{
 			_userService = userService;
-			_RoleService = roleService;
+			_roleService = roleService;
 		}
 
 
@@ -37,18 +37,33 @@ namespace Application.ApplicationService.AdminApplicationService
 			List<UserDto> result = lstUser.Adapt<List<UserDto>>();
 			return ResponseModel<List<UserDto>>.Success(result);
 		}
-		public async Task<PagingResponseModel<UserDto>> GetPagedUserAsync(QueryParameters queryParameters)
+		public async Task<PagingResponseModel<UserDto>> GetPagedActiveUserAsync(QueryParameters queryParameters)
 		{
-			PagingResponseModel<User>? pagUser = await _userService.GetPagedAsync(queryParameters, o => o.Include(i => i.UserRoles).ThenInclude(t => t.Role));
+			PagingResponseModel<User>? pagUser = await _userService.GetPagedAsync(queryParameters, o => o.Where(w => w.IsActive == true && w.IsDeleted == false).Include(i => i.UserRoles).ThenInclude(t => t.Role));
 			if (pagUser == null)
 				return PagingResponseModel<UserDto>.Success();
 			var res = pagUser.MapTo<User, UserDto>();
 			return res;
 		}
+		public async Task<ResponseModel<List<RoleDto>>> GetAllActiveRoleAsync(string? searchTitle)
+		{
+			IEnumerable<Role> enRole;
+
+			if (string.IsNullOrEmpty(searchTitle))
+				enRole = await _roleService.GetAllAsync();
+			else
+				enRole = await _roleService.FindAsync(f => f.RoleName.Contains(searchTitle)); // بهتره Contains باشه برای جستجوی جزئی
+
+			var lstRoleDto = enRole.Adapt<List<RoleDto>>();
+
+			return ResponseModel<List<RoleDto>>.Success(lstRoleDto);
+
+		}
 		public async Task<ResponseModel<RoleDto>> AddOrUpdateRoleAsync(RoleDto roleDto)
 		{
 
-			return await _RoleService.AddOrUpdateRoleAsync(roleDto);
+			return await _roleService.AddOrUpdateRoleAsync(roleDto);
 		}
+
 	}
 }

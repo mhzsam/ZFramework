@@ -11,9 +11,8 @@ namespace Application.ApplicationService
 
 	public class BaseApplicationService
 	{
-		protected readonly IApplicationDBContext _context;
-		protected readonly ICurrentUserService _currentUser;
-		private IApplicationDBContext applicationDBContext;
+		private readonly IApplicationDBContext _context;
+		protected readonly ICurrentUserService _currentUser;	
 
 		
 		public BaseApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser)

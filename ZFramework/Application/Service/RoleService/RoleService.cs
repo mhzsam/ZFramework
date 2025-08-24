@@ -47,5 +47,6 @@ namespace Application.Service.RoleService
 			await SaveChangesAsync();
 			return ResponseModel<RoleDto>.Success(role.Adapt<RoleDto>());
 		}
+		
 	}
 }

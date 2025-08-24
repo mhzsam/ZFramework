@@ -28,14 +28,20 @@ namespace Presentation.Controllers
 		[Description(ControllerDescription.User.GetAll)]
 		public async Task<PagingResponseModel<UserDto>> GetAllUser(QueryParameters queryParameters)
 		{
-			return await _adminApplicationService.GetPagedUserAsync(queryParameters);
+			return await _adminApplicationService.GetPagedActiveUserAsync(queryParameters);
 		}
 
 		[HttpPost]
-		[Description(ControllerDescription.User.GetAll)]
+		[Description(ControllerDescription.Role.AddOrUpdate)]
 		public async Task<ResponseModel<RoleDto>> AddOrUpdateRole(RoleDto roleDto)
 		{
 			return await _adminApplicationService.AddOrUpdateRoleAsync(roleDto);
+		}
+		[HttpGet]
+		[Description(ControllerDescription.Role.GetActive)]
+		public async Task<ResponseModel<List<RoleDto>>> GetActiveRole(string? searchTitle)
+		{
+			return await _adminApplicationService.GetAllActiveRoleAsync(searchTitle);
 		}
 	}
 }
