@@ -46,9 +46,9 @@ namespace Infrastructure.Context
 		public static void SeedData(this ModelBuilder modelBuilder)
 		{
 			modelBuilder.Entity<User>().HasData(
-				new User() { Id = 1, FirstName = "Mohammad", LastName = "Zarrabi", Password = SecurityHelper.PasswordToSHA256("1234"), EmailAddress = "user1@test.com", MobileNumber = "09120198177" },
-				new User() { Id = 2, FirstName = "Ali", LastName = "Rezaei", Password = SecurityHelper.PasswordToSHA256("1234"), EmailAddress = "user2@test.com", MobileNumber = "09120000002" },
-				new User() { Id = 3, FirstName = "Sara", LastName = "Ahmadi", Password = SecurityHelper.PasswordToSHA256("1234"), EmailAddress = "user3@test.com", MobileNumber = "09120000003" }
+				new User() { Id = 1, FirstName = "Mohammad", LastName = "Zarrabi", Password = SecurityHelper.PasswordToSHA256("1234"), EmailAddress = "user1@test.com", MobileNumber = "09120198177" ,IsActive=true},
+				new User() { Id = 2, FirstName = "Ali", LastName = "Rezaei", Password = SecurityHelper.PasswordToSHA256("1234"), EmailAddress = "user2@test.com", MobileNumber = "09120000002", IsActive = true },
+				new User() { Id = 3, FirstName = "Sara", LastName = "Ahmadi", Password = SecurityHelper.PasswordToSHA256("1234"), EmailAddress = "user3@test.com", MobileNumber = "09120000003", IsActive = true }
 			
 			);
 

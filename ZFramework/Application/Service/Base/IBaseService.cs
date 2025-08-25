@@ -17,6 +17,6 @@ namespace Application.Service.Base
 		Task UpdateAsync(TEntity entity);
 		Task DeleteAsync(TEntity entity);
 		Task<PagingResponseModel<TEntity>?> GetPagedAsync(QueryParameters parameters, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null);
-		Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate);
+		Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null);
 	}
 }

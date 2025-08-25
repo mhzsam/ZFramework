@@ -40,6 +40,7 @@ namespace Application.Service.Base
 			return await _dbSet.FindAsync(id);
 		}
 
+
 		public virtual async Task<List<TEntity>> GetAllAsync()
 		{
 			return await _dbSet.AsNoTracking().ToListAsync();
@@ -72,11 +73,17 @@ namespace Application.Service.Base
 			_context.SaveChanges();
 		}
 
-		public async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate)
+		public async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
 		{
-			if (predicate == null)
-				return await GetAllAsync();
-			return await _dbSet.Where(predicate).AsNoTracking().ToListAsync();
+			var query = _dbSet.AsQueryable();
+			if (includes != null)
+				query = includes(query);
+
+			if (predicate != null)
+				query = query.Where(predicate);
+
+
+			return await query.AsNoTracking().ToListAsync();
 		}
 
 	}

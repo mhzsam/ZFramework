@@ -1,5 +1,6 @@
 ﻿using Application.DTO.Role;
 using Application.DTO.User;
+using Application.DTO.UserRole;
 using Domain.Shared.Models;
 using Domain.Shared.QueryableEngin;
 using System;
@@ -16,5 +17,6 @@ namespace Application.ApplicationService.AdminApplicationService
 		Task<ResponseModel<List<RoleDto>>> GetAllActiveRoleAsync(string? searchTitle);
 		Task<ResponseModel<List<UserDto>>> GetAllUserAsync();
 		Task<PagingResponseModel<UserDto>> GetPagedActiveUserAsync(QueryParameters queryParameters);
+		Task<ResponseModel<GetUserRoleForModifyDto>> GetUserRoleForModifyAsync(string _userId);
 	}
 }

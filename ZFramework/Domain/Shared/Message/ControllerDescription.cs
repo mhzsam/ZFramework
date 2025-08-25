@@ -40,6 +40,7 @@
 	{
 		public const string GetAll = "گرفتن همه نقش‌های کاربر";
 		public const string GetById = "گرفتن نقش کاربر بر اساس شناسه";
+		public const string GetByUserId = "گرفتن نقش کاربر بر اساس شناسه کاربر";
 		public const string Add = "ایجاد نقش برای کاربر";
 		public const string Update = "ویرایش نقش کاربر";
 		public const string AddOrUpdate = "ایجاد یا ویرایش نقش کاربر";

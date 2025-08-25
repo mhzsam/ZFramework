@@ -1,14 +1,20 @@
 ﻿using Application.DTO.Role;
 using Application.DTO.User;
+using Application.DTO.UserRole;
 using Application.Service.Base;
 using Application.Service.RoleService;
 using Application.Service.UserService;
+using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Office2010.Excel;
 using Domain.Entites;
+using Domain.Helper;
 using Domain.Shared.Interface;
+using Domain.Shared.Message;
 using Domain.Shared.Models;
 using Domain.Shared.QueryableEngin;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,6 +69,33 @@ namespace Application.ApplicationService.AdminApplicationService
 		{
 
 			return await _roleService.AddOrUpdateRoleAsync(roleDto);
+		}
+		public async Task<ResponseModel<GetUserRoleForModifyDto>> GetUserRoleForModifyAsync(string _userId)
+		{
+			int? userId = HashIdHelper.DecodeInt(_userId);
+			if (userId == null)
+				return ResponseModel<GetUserRoleForModifyDto>.Fail(ErrorText.General.NotFound);
+
+			User? user = (await _userService.FindAsync(w => w.Id == userId && w.IsDeleted == false && w.IsActive == true,
+				x => x.Include(i => i.UserRoles.Where(w => w.IsDeleted == false))
+					  .ThenInclude(t => t.Role))).FirstOrDefault();
+
+			if (user == null)
+				return ResponseModel<GetUserRoleForModifyDto>.Fail(ErrorText.General.NotFound);
+
+			GetUserRoleForModifyDto result = new();
+			result.User = user.Adapt<UserDto>();
+			if (user?.UserRoles.Count > 0)
+				result.AssignedRoles = user.UserRoles.Where(w => w.Role.IsDeleted == false && w.Role.IsActive == true)?.Select(s => s.Role.Adapt<RoleDto>())?.ToList();
+
+			List<Domain.Entites.Role> lstRole = await _roleService.FindAsync(w => w.IsActive == true && w.IsDeleted == false);
+			if (lstRole.Count > 0)
+			{
+				IEnumerable<int> assignedIds = result.AssignedRoles?.Select(r => r.Id) ?? Enumerable.Empty<int>();
+				result.AvailableRoles = lstRole.Adapt<List<RoleDto>>().Where(w => !assignedIds.Contains(w.Id)).ToList();
+			}
+
+			return ResponseModel<GetUserRoleForModifyDto>.Success(result);
 		}
 
 	}

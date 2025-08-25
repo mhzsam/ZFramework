@@ -1,12 +1,15 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
 using Application.DTO.Role;
 using Application.DTO.User;
+using Application.DTO.UserRole;
 using Application.Service.Base;
 using Application.Service.UserService;
 using Domain.Entites;
+using Domain.Helper;
 using Domain.Shared.Message;
 using Domain.Shared.Models;
 using Domain.Shared.QueryableEngin;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Extensions;
@@ -42,6 +45,13 @@ namespace Presentation.Controllers
 		public async Task<ResponseModel<List<RoleDto>>> GetActiveRole(string? searchTitle)
 		{
 			return await _adminApplicationService.GetAllActiveRoleAsync(searchTitle);
+		}
+
+		[HttpGet]
+		[Description(ControllerDescription.UserRole.GetByUserId)]
+		public async Task<ResponseModel<GetUserRoleForModifyDto>> GetUserRoleForModify(string _userId)
+		{	
+			return await _adminApplicationService.GetUserRoleForModifyAsync(_userId);
 		}
 	}
 }
