@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Domain.Helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,6 +26,12 @@ namespace Domain.Exception
 			: base(message)
 		{
 			StatusCode = statusCode;
+			AdditionalData = additionalData;
+		}
+		public CustomException(string message, object additionalData)
+			: base(message)
+		{
+			StatusCode = HttpStatusCode.InternalServerError.ToInt();
 			AdditionalData = additionalData;
 		}
 

@@ -1,8 +1,10 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
 using Application.ApplicationService.CommonApplicationService;
 using Application.DTO.Role;
+using Application.DTO.UserRole;
 using Application.Service.Base;
 using Application.Service.RoleService;
+using Application.Service.UserRoleService;
 using Application.Service.UserService;
 using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Domain.Shared.Interface;
@@ -34,11 +36,13 @@ namespace Application.SetUp
 			services.AddScoped<ICurrentUserService, CurrentUserService>();
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IRoleService, RoleService>();
+			services.AddScoped<IUserRoleService, UserRoleService>();
 
 		}
 		private static void AddValidatorServices(this IServiceCollection services)
 		{
 			services.AddValidatorsFromAssemblyContaining<RoleDtoValidator>();
+			services.AddValidatorsFromAssemblyContaining<AddUserRoleDtoValidator>();
 
 
 		}

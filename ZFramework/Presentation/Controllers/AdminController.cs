@@ -50,8 +50,14 @@ namespace Presentation.Controllers
 		[HttpGet]
 		[Description(ControllerDescription.UserRole.GetByUserId)]
 		public async Task<ResponseModel<GetUserRoleForModifyDto>> GetUserRoleForModify(string _userId)
-		{	
+		{
 			return await _adminApplicationService.GetUserRoleForModifyAsync(_userId);
+		}
+		[HttpPost]
+		[Description(ControllerDescription.UserRole.AddOrUpdate)]
+		public async Task<ResponseModel> AddOrUpdateUserRole(AddOrUpdateUserRoleDto addOrUpdateUserRoleDto)
+		{
+			return await _adminApplicationService.AddOrUpdateUserRoleAsync(addOrUpdateUserRoleDto);
 		}
 	}
 }

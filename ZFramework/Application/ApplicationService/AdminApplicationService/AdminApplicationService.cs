@@ -3,10 +3,13 @@ using Application.DTO.User;
 using Application.DTO.UserRole;
 using Application.Service.Base;
 using Application.Service.RoleService;
+using Application.Service.UserRoleService;
 using Application.Service.UserService;
 using DocumentFormat.OpenXml.Drawing;
+using DocumentFormat.OpenXml.Drawing.Diagrams;
 using DocumentFormat.OpenXml.Office2010.Excel;
 using Domain.Entites;
+using Domain.Exception;
 using Domain.Helper;
 using Domain.Shared.Interface;
 using Domain.Shared.Message;
@@ -18,6 +21,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -27,10 +31,12 @@ namespace Application.ApplicationService.AdminApplicationService
 	{
 		private readonly IUserService _userService;
 		private readonly IRoleService _roleService;
-		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService, IRoleService roleService) : base(applicationDBContext, currentUser)
+		private readonly IUserRoleService _userRoleService;
+		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService, IRoleService roleService, IUserRoleService userRoleService) : base(applicationDBContext, currentUser)
 		{
 			_userService = userService;
 			_roleService = roleService;
+			_userRoleService = userRoleService;
 		}
 
 
@@ -96,6 +102,59 @@ namespace Application.ApplicationService.AdminApplicationService
 			}
 
 			return ResponseModel<GetUserRoleForModifyDto>.Success(result);
+		}
+		public async Task<ResponseModel> AddOrUpdateUserRoleAsync(AddOrUpdateUserRoleDto addOrUpdateUserRoleDto)
+		{
+			try
+			{
+
+				int? userId = HashIdHelper.DecodeInt(addOrUpdateUserRoleDto.UserId);
+				if (userId == null)
+					return ResponseModel.Fail(ErrorText.General.NotFound);
+
+				User? user = await _userService.GetByIdAsync(userId);
+				if (user is not User)
+					return ResponseModel.Fail(ErrorText.General.NotFound);
+
+				Role role = await _roleService.GetByIdAsync(addOrUpdateUserRoleDto.RoleId);
+				if (role is not Role || role.Id < 0)
+					return ResponseModel.Fail(ErrorText.General.NotFound);
+
+				List<UserRole> lstUserRole = await _userRoleService.FindAsync(w => w.RoleId == addOrUpdateUserRoleDto.RoleId && w.UserId == userId && w.IsDeleted == false);
+
+				await BeginTransactionAsync();
+				if (lstUserRole is not null && lstUserRole.Count > 0)
+				{
+					foreach (var item in lstUserRole)
+					{
+						item.IsDeleted = true;
+						item.UpdateDate = DateTime.Now;
+						item.UpdateBy = _currentUser.UserId ?? throw new CustomException(ErrorText.Auth.Unauthorized);
+						await _userRoleService.UpdateAsync(item);
+					}
+				}
+				else
+				{
+					// اگر موجود نبود، ایجاد کن
+					var newUserRole = new UserRole
+					{
+						UserId = user.Id,
+						RoleId = role.Id,
+						InsertDate = DateTime.Now,
+						InsertBy = _currentUser.UserId ?? throw new CustomException(ErrorText.Auth.Unauthorized),
+						IsDeleted = false,
+					};
+					await _userRoleService.AddAsync(newUserRole);
+				}
+				await CommitTransactionAsync();
+				return ResponseModel.Success();
+			}
+			catch (Exception ex)
+			{
+				await RollbackTransactionAsync();
+				throw new CustomException(ErrorText.System.UnexpectedError, ex.Message);
+			}
+
 		}
 
 	}

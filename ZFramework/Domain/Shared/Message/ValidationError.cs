@@ -14,6 +14,12 @@
 	public static string MinLength(string fieldName, int minLength) =>
 		$"حداقل طول {fieldName} باید {minLength} کاراکتر باشد";
 
+	public static string MaxValue(string fieldName, int maxLength) =>
+		$"حداکثر مقدار {fieldName} باید {maxLength}  باشد";
+
+	public static string MinValue(string fieldName, int minLength) =>
+		$"حداقل مقدار {fieldName} باید {minLength}  باشد";
+
 	public static string Length(string fieldName, int minLength, int maxLength) =>
 		$"طول {fieldName} باید بین {minLength} تا {maxLength} کاراکتر باشد";
 

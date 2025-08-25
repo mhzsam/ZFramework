@@ -14,6 +14,7 @@ namespace Application.ApplicationService.AdminApplicationService
 	public interface IAdminApplicationService
 	{
 		Task<ResponseModel<RoleDto>> AddOrUpdateRoleAsync(RoleDto roleDto);
+		Task<ResponseModel> AddOrUpdateUserRoleAsync(AddOrUpdateUserRoleDto addOrUpdateUserRoleDto);
 		Task<ResponseModel<List<RoleDto>>> GetAllActiveRoleAsync(string? searchTitle);
 		Task<ResponseModel<List<UserDto>>> GetAllUserAsync();
 		Task<PagingResponseModel<UserDto>> GetPagedActiveUserAsync(QueryParameters queryParameters);
