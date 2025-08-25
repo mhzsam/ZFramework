@@ -23,7 +23,7 @@ public class ExceptionHandlingMiddleware
 		}
 		catch (Exception ex)
 		{
-			context.Response.ContentType = "application/json";
+			context.Response.ContentType = ContentTypes.Json;
 
 			int statusCode = ex switch
 			{
