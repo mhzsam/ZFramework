@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,11 +23,10 @@ namespace Infrastructure.Migrations
                     ControllerName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     ActionName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     ActionMethod = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    IsActivee = table.Column<bool>(type: "bit", nullable: false),
-                    CreateDateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    ModifyDateTime = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PermissionHash = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     InsertBy = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -45,7 +46,6 @@ namespace Infrastructure.Migrations
                     RoleName = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     InsertBy = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -75,8 +75,7 @@ namespace Infrastructure.Migrations
                     Token = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 8, 21, 13, 8, 56, 550, DateTimeKind.Local).AddTicks(3245)),
+                    InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(769)),
                     InsertBy = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateBy = table.Column<int>(type: "int", nullable: true)
@@ -95,8 +94,7 @@ namespace Infrastructure.Migrations
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     PermissionId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 8, 21, 13, 8, 56, 550, DateTimeKind.Local).AddTicks(5399)),
+                    InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(2695)),
                     InsertBy = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateBy = table.Column<int>(type: "int", nullable: true)
@@ -127,8 +125,7 @@ namespace Infrastructure.Migrations
                     RoleId = table.Column<int>(type: "int", nullable: false),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    DeletedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 8, 21, 13, 8, 56, 550, DateTimeKind.Local).AddTicks(4565)),
+                    InsertDate = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValue: new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(1844)),
                     InsertBy = table.Column<int>(type: "int", nullable: false),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateBy = table.Column<int>(type: "int", nullable: true)
@@ -152,18 +149,34 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.InsertData(
                 table: "Rols",
-                columns: new[] { "Id", "DeletedDate", "InsertBy", "InsertDate", "IsActive", "IsDeleted", "RoleName", "UpdateBy", "UpdateDate" },
-                values: new object[] { 1, null, 0, new DateTime(2025, 8, 21, 13, 8, 56, 800, DateTimeKind.Local).AddTicks(5835), true, false, "SuperAdmin", null, null });
+                columns: new[] { "Id", "InsertBy", "InsertDate", "IsActive", "IsDeleted", "RoleName", "UpdateBy", "UpdateDate" },
+                values: new object[,]
+                {
+                    { -1, 0, new DateTime(2025, 8, 26, 23, 38, 4, 587, DateTimeKind.Local).AddTicks(5500), true, false, "SuperAdmin", null, null },
+                    { 1, 0, new DateTime(2025, 8, 26, 23, 38, 4, 587, DateTimeKind.Local).AddTicks(8284), true, false, "Admin", null, null },
+                    { 2, 0, new DateTime(2025, 8, 26, 23, 38, 4, 587, DateTimeKind.Local).AddTicks(9023), true, false, "Manager", null, null },
+                    { 3, 0, new DateTime(2025, 8, 26, 23, 38, 4, 587, DateTimeKind.Local).AddTicks(9507), true, false, "User", null, null }
+                });
 
             migrationBuilder.InsertData(
                 table: "Users",
-                columns: new[] { "Id", "Avatar", "DeletedDate", "EmailAddress", "FirstName", "ForceChanePassword", "InsertBy", "InsertDate", "IsActive", "LastLoginDate", "LastName", "MobileNumber", "NationalCode", "Password", "PhoneNumber", "Token" },
-                values: new object[] { 1, null, null, "mhzsam@gmail.com", "Mohammad555", false, 0, new DateTime(2025, 8, 21, 13, 8, 56, 801, DateTimeKind.Local).AddTicks(1375), false, null, "Zarrabi", "09120198177", null, "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", null, null });
+                columns: new[] { "Id", "Avatar", "EmailAddress", "FirstName", "ForceChanePassword", "InsertBy", "InsertDate", "IsActive", "LastLoginDate", "LastName", "MobileNumber", "NationalCode", "Password", "PhoneNumber", "Token" },
+                values: new object[,]
+                {
+                    { 1, null, "user1@test.com", "Mohammad", false, 0, new DateTime(2025, 8, 26, 23, 38, 4, 588, DateTimeKind.Local).AddTicks(5346), true, null, "Zarrabi", "09120198177", null, "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", null, null },
+                    { 2, null, "user2@test.com", "Ali", false, 0, new DateTime(2025, 8, 26, 23, 38, 4, 588, DateTimeKind.Local).AddTicks(7173), true, null, "Rezaei", "09120000002", null, "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", null, null },
+                    { 3, null, "user3@test.com", "Sara", false, 0, new DateTime(2025, 8, 26, 23, 38, 4, 588, DateTimeKind.Local).AddTicks(8512), true, null, "Ahmadi", "09120000003", null, "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4", null, null }
+                });
 
             migrationBuilder.InsertData(
                 table: "UserRols",
-                columns: new[] { "Id", "DeletedDate", "InsertBy", "InsertDate", "RoleId", "UserId" },
-                values: new object[] { 1, null, 0, new DateTime(2025, 8, 21, 13, 8, 56, 801, DateTimeKind.Local).AddTicks(3481), 1, 1 });
+                columns: new[] { "Id", "InsertBy", "InsertDate", "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { 1, 0, new DateTime(2025, 8, 26, 23, 38, 4, 589, DateTimeKind.Local).AddTicks(2409), -1, 1 },
+                    { 2, 0, new DateTime(2025, 8, 26, 23, 38, 4, 589, DateTimeKind.Local).AddTicks(3620), 1, 1 },
+                    { 3, 0, new DateTime(2025, 8, 26, 23, 38, 4, 589, DateTimeKind.Local).AddTicks(4741), 2, 2 }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_RolePermissions_PermissionId",

@@ -1,5 +1,6 @@
 ﻿using Domain.Entites;
 using Domain.Shared.Message;
+using Domain.Shared.PersianFeildName;
 using Domain.Shared.QueryableEngin;
 using FluentValidation;
 using Microsoft.IdentityModel.Tokens.Experimental;
@@ -26,9 +27,9 @@ namespace Application.DTO.Role
 		public RoleDtoValidator()
 		{
 			RuleFor(x => x.RoleName)
-				.NotEmpty().WithMessage(ValidationMessages.Required("نام نقش"))
-				.MaximumLength(100).WithMessage(ValidationMessages.MaxLength("نام نقش", 100))
-				.MinimumLength(3).WithMessage(ValidationMessages.MinLength("نام نقش", 3));
+				.NotEmpty().WithMessage(ValidationMessages.Required(PersianFeildName.Role.RoleName))
+				.MaximumLength(100).WithMessage(ValidationMessages.MaxLength(PersianFeildName.Role.RoleName, 100))
+				.MinimumLength(3).WithMessage(ValidationMessages.MinLength(PersianFeildName.Role.RoleName, 3));
 		}
 	}
 }

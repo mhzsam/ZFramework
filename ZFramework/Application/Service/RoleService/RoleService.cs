@@ -6,6 +6,7 @@ using Domain.Exception;
 using Domain.Helper;
 using Domain.Shared.Interface;
 using Domain.Shared.Models;
+using Domain.Shared.PersianFeildName;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -36,7 +37,7 @@ namespace Application.Service.RoleService
 			{
 				role = await GetByIdAsync(roleDto.Id);
 				if (role == null)
-					throw new CustomException(ValidationMessages.NotFound("نقش"));
+					throw new CustomException(ValidationMessages.NotFound(PersianFeildName.Role.Id));
 
 
 				role.RoleName = roleDto.RoleName;

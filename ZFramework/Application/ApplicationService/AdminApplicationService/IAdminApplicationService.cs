@@ -1,4 +1,6 @@
-﻿using Application.DTO.Role;
+﻿using Application.DTO.Permission;
+using Application.DTO.Role;
+using Application.DTO.RolePermission;
 using Application.DTO.User;
 using Application.DTO.UserRole;
 using Domain.Shared.Models;
@@ -17,7 +19,10 @@ namespace Application.ApplicationService.AdminApplicationService
 		Task<ResponseModel> AddOrUpdateUserRoleAsync(AddOrUpdateUserRoleDto addOrUpdateUserRoleDto);
 		Task<ResponseModel<List<RoleDto>>> GetAllActiveRoleAsync(string? searchTitle);
 		Task<ResponseModel<List<UserDto>>> GetAllUserAsync();
+		Task<PagingResponseModel<PermissionDto>> GetPagedActivePermissionAsync(QueryParameters queryParameters);
 		Task<PagingResponseModel<UserDto>> GetPagedActiveUserAsync(QueryParameters queryParameters);
+		Task<ResponseModel<GetRolePermissionForModifyDto>> GetRolePermissionForModifyAsync(int permissionId);
+		Task<ResponseModel> AddOrUpdateRolePermissionAsync(AddOrUpdateRolePermissionDto model);
 		Task<ResponseModel<GetUserRoleForModifyDto>> GetUserRoleForModifyAsync(string _userId);
 	}
 }

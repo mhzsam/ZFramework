@@ -73,7 +73,7 @@ namespace Application.Service.Base
 			_context.SaveChanges();
 		}
 
-		public async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
+		public async Task<List<TEntity>> FindAsync(Expression<Func<TEntity, bool>>? predicate=null, Func<IQueryable<TEntity>, IQueryable<TEntity>>? includes = null)
 		{
 			var query = _dbSet.AsQueryable();
 			if (includes != null)

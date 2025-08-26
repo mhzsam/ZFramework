@@ -3,10 +3,11 @@ using Application.ApplicationService.CommonApplicationService;
 using Application.DTO.Role;
 using Application.DTO.UserRole;
 using Application.Service.Base;
+using Application.Service.PermissionService;
+using Application.Service.RolePermissionService;
 using Application.Service.RoleService;
 using Application.Service.UserRoleService;
 using Application.Service.UserService;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using Domain.Shared.Interface;
 using Domain.Shared.Models;
 using FluentValidation;
@@ -37,6 +38,8 @@ namespace Application.SetUp
 			services.AddScoped<IUserService, UserService>();
 			services.AddScoped<IRoleService, RoleService>();
 			services.AddScoped<IUserRoleService, UserRoleService>();
+			services.AddScoped<IPermissionService, PermissionService>();
+			services.AddScoped<IRolePermissionService, RolePermissionService>();
 
 		}
 		private static void AddValidatorServices(this IServiceCollection services)

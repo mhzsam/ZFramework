@@ -1,7 +1,10 @@
-﻿using Application.DTO.Role;
+﻿using Application.DTO.Permission;
+using Application.DTO.Role;
+using Application.DTO.RolePermission;
 using Application.DTO.User;
 using Application.DTO.UserRole;
 using Application.Service.Base;
+using Application.Service.RolePermissionService;
 using Application.Service.RoleService;
 using Application.Service.UserRoleService;
 using Application.Service.UserService;
@@ -14,6 +17,7 @@ using Domain.Helper;
 using Domain.Shared.Interface;
 using Domain.Shared.Message;
 using Domain.Shared.Models;
+using Domain.Shared.PersianFeildName;
 using Domain.Shared.QueryableEngin;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
@@ -32,11 +36,15 @@ namespace Application.ApplicationService.AdminApplicationService
 		private readonly IUserService _userService;
 		private readonly IRoleService _roleService;
 		private readonly IUserRoleService _userRoleService;
-		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService, IRoleService roleService, IUserRoleService userRoleService) : base(applicationDBContext, currentUser)
+		private readonly IPermissionService _permissionService;
+		private readonly IRolePermissionService _rolePermissionService;
+		public AdminApplicationService(IApplicationDBContext applicationDBContext, ICurrentUserService currentUser, IUserService userService, IRoleService roleService, IUserRoleService userRoleService, IPermissionService permissionService, IRolePermissionService rolePermissionService) : base(applicationDBContext, currentUser)
 		{
 			_userService = userService;
 			_roleService = roleService;
 			_userRoleService = userRoleService;
+			_permissionService = permissionService;
+			_rolePermissionService = rolePermissionService;
 		}
 
 
@@ -155,6 +163,89 @@ namespace Application.ApplicationService.AdminApplicationService
 				throw new CustomException(ErrorText.System.UnexpectedError, ex.Message);
 			}
 
+		}
+		public async Task<PagingResponseModel<PermissionDto>> GetPagedActivePermissionAsync(QueryParameters queryParameters)
+		{
+			PagingResponseModel<Permission>? pagPermission = await _permissionService.GetPagedAsync(queryParameters, o => o.Where(w => w.IsActive == true && w.IsDeleted == false));
+			if (pagPermission == null)
+				return PagingResponseModel<PermissionDto>.Success();
+
+			var res = pagPermission.MapTo<Permission, PermissionDto>();
+			return res;
+		}
+		public async Task<ResponseModel<GetRolePermissionForModifyDto>> GetRolePermissionForModifyAsync(int permissionId)
+		{
+			Permission? permission = (await _permissionService.FindAsync(w => w.Id == permissionId && w.IsDeleted == false && w.IsActive == true))?.FirstOrDefault();
+			if (permission is not Permission)
+				return ResponseModel<GetRolePermissionForModifyDto>.Fail(ErrorText.General.NotFoundByFeild(PersianFeildName.Permission.Id));
+
+
+			List<RolePermission> lstRolePermission = await _rolePermissionService.FindAsync(w => w.PermissionId == permissionId &&
+																	   w.IsDeleted == false &&
+																	   w.Permission.IsDeleted == false &&
+																	   w.Permission.IsActive == true &&
+																	   w.Role.IsActive == true &&
+																	   w.Role.IsDeleted == false
+																	   , x => x.Include(i => i.Permission).Include(i => i.Role));
+			
+			GetRolePermissionForModifyDto result = new GetRolePermissionForModifyDto
+			{
+				Permission = permission?.Adapt<PermissionDto>(),
+				AssignedRoles = lstRolePermission?.Select(s => s.Role.Adapt<RoleDto>()).ToList()
+			};
+
+			IEnumerable<int> assignedIds = result?.AssignedRoles?.Select(r => r.Id) ?? Enumerable.Empty<int>();
+			result.AvailableRoles = (await _roleService.FindAsync(w => !assignedIds.Contains(w.Id))).Adapt<List<RoleDto>>();
+
+			return ResponseModel<GetRolePermissionForModifyDto>.Success(result);
+		}
+		public async Task<ResponseModel> AddOrUpdateRolePermissionAsync(AddOrUpdateRolePermissionDto model)
+		{
+			try
+			{
+				Role? role = (await _roleService.FindAsync(w => w.Id == model.RoleId))?.FirstOrDefault();
+				if (role is not Role)
+					return ResponseModel.Fail(ErrorText.General.NotFoundByFeild(PersianFeildName.Role.Id));
+
+				Permission? permission = (await _permissionService.FindAsync(w => w.Id == model.PermissionId && w.IsDeleted == false && w.IsActive == true))?.FirstOrDefault();
+				if (permission is not Permission)
+					return ResponseModel.Fail(ErrorText.General.NotFoundByFeild(PersianFeildName.Permission.Id));
+
+
+				List<RolePermission> lstRolePermission = await _rolePermissionService.FindAsync(w => w.RoleId == model.RoleId && w.PermissionId == model.PermissionId && w.IsDeleted == false);
+
+				await BeginTransactionAsync();
+				if (lstRolePermission is not null && lstRolePermission.Count > 0)
+				{
+					foreach (var item in lstRolePermission)
+					{
+						item.IsDeleted = true;
+						item.UpdateDate = DateTime.Now;
+						item.UpdateBy = _currentUser.UserId ?? throw new CustomException(ErrorText.Auth.Unauthorized);
+						await _rolePermissionService.UpdateAsync(item);
+					}
+				}
+				else
+				{
+					// اگر موجود نبود، ایجاد کن
+					RolePermission newRolePermission = new RolePermission
+					{
+						PermissionId = model.PermissionId,
+						RoleId = model.RoleId,
+						InsertDate = DateTime.Now,
+						InsertBy = _currentUser.UserId ?? throw new CustomException(ErrorText.Auth.Unauthorized),
+						IsDeleted = false,
+					};
+					await _rolePermissionService.AddAsync(newRolePermission);
+				}
+				await CommitTransactionAsync();
+				return ResponseModel.Success();
+			}
+			catch (Exception ex)
+			{
+				await RollbackTransactionAsync();
+				throw new CustomException(ErrorText.System.UnexpectedError, ex.Message);
+			}
 		}
 
 	}

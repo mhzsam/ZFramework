@@ -38,7 +38,7 @@ namespace Domain.Entites
 
 		public string? Description { get; set; }
 
-		public bool IsActivee { get; set; }
+		public bool IsActive { get; set; }
 
 		public void ComputeAndSetHash()
 		{

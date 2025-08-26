@@ -1,5 +1,7 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
+using Application.DTO.Permission;
 using Application.DTO.Role;
+using Application.DTO.RolePermission;
 using Application.DTO.User;
 using Application.DTO.UserRole;
 using Application.Service.Base;
@@ -40,6 +42,7 @@ namespace Presentation.Controllers
 		{
 			return await _adminApplicationService.AddOrUpdateRoleAsync(roleDto);
 		}
+
 		[HttpGet]
 		[Description(ControllerDescription.Role.GetActive)]
 		public async Task<ResponseModel<List<RoleDto>>> GetActiveRole(string? searchTitle)
@@ -53,11 +56,34 @@ namespace Presentation.Controllers
 		{
 			return await _adminApplicationService.GetUserRoleForModifyAsync(_userId);
 		}
+
 		[HttpPost]
 		[Description(ControllerDescription.UserRole.AddOrUpdate)]
 		public async Task<ResponseModel> AddOrUpdateUserRole(AddOrUpdateUserRoleDto addOrUpdateUserRoleDto)
 		{
 			return await _adminApplicationService.AddOrUpdateUserRoleAsync(addOrUpdateUserRoleDto);
 		}
+
+		[HttpPost]
+		[Description(ControllerDescription.Permission.GetPaged)]
+		public async Task<PagingResponseModel<PermissionDto>> GetPagedPermission(QueryParameters queryParameters)
+		{
+			return await _adminApplicationService.GetPagedActivePermissionAsync(queryParameters);
+		}
+
+		[HttpGet]
+		[Description(ControllerDescription.RolePermission.AddOrUpdate)]
+		public async Task<ResponseModel<GetRolePermissionForModifyDto>> GetRolePermissionForModify(int permissionId)
+		{
+			return await _adminApplicationService.GetRolePermissionForModifyAsync(permissionId);
+		}
+
+		[HttpPost]
+		[Description(ControllerDescription.UserRole.GetByUserId)]
+		public async Task<ResponseModel> AddOrUpdateRolePermission(AddOrUpdateRolePermissionDto addOrUpdateRolePermissionDto)
+		{
+			return await _adminApplicationService.AddOrUpdateRolePermissionAsync(addOrUpdateRolePermissionDto);
+		}
+
 	}
 }

@@ -4,7 +4,6 @@ using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,11 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250821093856_InitialCreate")]
-    partial class InitialCreate
+    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,11 +45,8 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
-                    b.Property<DateTime>("CreateDateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("InsertBy")
                         .HasColumnType("int");
@@ -60,14 +54,14 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActivee")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime?>("ModifyDateTime")
-                        .HasColumnType("datetime2");
+                    b.Property<decimal>("PermissionHash")
+                        .HasColumnType("decimal(20,0)");
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
@@ -92,9 +86,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
 
                     b.Property<int>("InsertBy")
                         .HasColumnType("int");
@@ -127,12 +118,39 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 13, 8, 56, 853, DateTimeKind.Local).AddTicks(1395),
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 652, DateTimeKind.Local).AddTicks(6658),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "SuperAdmin"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 652, DateTimeKind.Local).AddTicks(6836),
+                            IsActive = true,
+                            IsDeleted = false,
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 652, DateTimeKind.Local).AddTicks(6956),
+                            IsActive = true,
+                            IsDeleted = false,
+                            RoleName = "Manager"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 652, DateTimeKind.Local).AddTicks(7070),
+                            IsActive = true,
+                            IsDeleted = false,
+                            RoleName = "User"
                         });
                 });
 
@@ -144,16 +162,13 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("InsertBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("InsertDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 8, 21, 13, 8, 56, 550, DateTimeKind.Local).AddTicks(5399));
+                        .HasDefaultValue(new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(2695));
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -192,9 +207,6 @@ namespace Infrastructure.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("EmailAddress")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -214,7 +226,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("InsertDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 8, 21, 13, 8, 56, 550, DateTimeKind.Local).AddTicks(3245));
+                        .HasDefaultValue(new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(769));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -262,15 +274,43 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            EmailAddress = "mhzsam@gmail.com",
-                            FirstName = "Mohammad555",
+                            EmailAddress = "user1@test.com",
+                            FirstName = "Mohammad",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 13, 8, 56, 853, DateTimeKind.Local).AddTicks(8965),
-                            IsActive = false,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 652, DateTimeKind.Local).AddTicks(9360),
+                            IsActive = true,
                             IsDeleted = false,
                             LastName = "Zarrabi",
                             MobileNumber = "09120198177",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EmailAddress = "user2@test.com",
+                            FirstName = "Ali",
+                            ForceChanePassword = false,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 652, DateTimeKind.Local).AddTicks(9716),
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastName = "Rezaei",
+                            MobileNumber = "09120000002",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EmailAddress = "user3@test.com",
+                            FirstName = "Sara",
+                            ForceChanePassword = false,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 653, DateTimeKind.Local).AddTicks(39),
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastName = "Ahmadi",
+                            MobileNumber = "09120000003",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
                         });
                 });
@@ -283,16 +323,13 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("DeletedDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<int>("InsertBy")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("InsertDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 8, 21, 13, 8, 56, 550, DateTimeKind.Local).AddTicks(4565));
+                        .HasDefaultValue(new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(1844));
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -324,10 +361,28 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 13, 8, 56, 854, DateTimeKind.Local).AddTicks(661),
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 653, DateTimeKind.Local).AddTicks(1837),
+                            IsDeleted = false,
+                            RoleId = -1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 653, DateTimeKind.Local).AddTicks(2003),
                             IsDeleted = false,
                             RoleId = 1,
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 653, DateTimeKind.Local).AddTicks(2145),
+                            IsDeleted = false,
+                            RoleId = 2,
+                            UserId = 2
                         });
                 });
 
@@ -340,7 +395,7 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.Entites.Role", "Role")
-                        .WithMany()
+                        .WithMany("RolePermissions")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -367,6 +422,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Role");
 
                     b.Navigation("user");
+                });
+
+            modelBuilder.Entity("Domain.Entites.Role", b =>
+                {
+                    b.Navigation("RolePermissions");
                 });
 
             modelBuilder.Entity("Domain.Entites.User", b =>

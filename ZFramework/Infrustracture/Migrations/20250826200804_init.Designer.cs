@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250821150422_addPermissionHash")]
-    partial class addPermissionHash
+    [Migration("20250826200804_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("InsertDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsActivee")
+                    b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
@@ -121,12 +121,39 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = -1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 812, DateTimeKind.Local).AddTicks(3784),
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 648, DateTimeKind.Local).AddTicks(2891),
                             IsActive = true,
                             IsDeleted = false,
                             RoleName = "SuperAdmin"
+                        },
+                        new
+                        {
+                            Id = 1,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 648, DateTimeKind.Local).AddTicks(3135),
+                            IsActive = true,
+                            IsDeleted = false,
+                            RoleName = "Admin"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 648, DateTimeKind.Local).AddTicks(3256),
+                            IsActive = true,
+                            IsDeleted = false,
+                            RoleName = "Manager"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 648, DateTimeKind.Local).AddTicks(3387),
+                            IsActive = true,
+                            IsDeleted = false,
+                            RoleName = "User"
                         });
                 });
 
@@ -144,7 +171,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("InsertDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 8, 21, 18, 34, 22, 468, DateTimeKind.Local).AddTicks(2277));
+                        .HasDefaultValue(new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(2695));
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -202,7 +229,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("InsertDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 8, 21, 18, 34, 22, 468, DateTimeKind.Local).AddTicks(258));
+                        .HasDefaultValue(new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(769));
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
@@ -250,15 +277,43 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = 1,
-                            EmailAddress = "mhzsam@gmail.com",
-                            FirstName = "Mohammad555",
+                            EmailAddress = "user1@test.com",
+                            FirstName = "Mohammad",
                             ForceChanePassword = false,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 813, DateTimeKind.Local).AddTicks(2131),
-                            IsActive = false,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 649, DateTimeKind.Local).AddTicks(1889),
+                            IsActive = true,
                             IsDeleted = false,
                             LastName = "Zarrabi",
                             MobileNumber = "09120198177",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            EmailAddress = "user2@test.com",
+                            FirstName = "Ali",
+                            ForceChanePassword = false,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 649, DateTimeKind.Local).AddTicks(2263),
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastName = "Rezaei",
+                            MobileNumber = "09120000002",
+                            Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            EmailAddress = "user3@test.com",
+                            FirstName = "Sara",
+                            ForceChanePassword = false,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 649, DateTimeKind.Local).AddTicks(2576),
+                            IsActive = true,
+                            IsDeleted = false,
+                            LastName = "Ahmadi",
+                            MobileNumber = "09120000003",
                             Password = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"
                         });
                 });
@@ -277,7 +332,7 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("InsertDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetime2")
-                        .HasDefaultValue(new DateTime(2025, 8, 21, 18, 34, 22, 468, DateTimeKind.Local).AddTicks(1379));
+                        .HasDefaultValue(new DateTime(2025, 8, 26, 23, 38, 4, 339, DateTimeKind.Local).AddTicks(1844));
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -309,10 +364,28 @@ namespace Infrastructure.Migrations
                         {
                             Id = 1,
                             InsertBy = 0,
-                            InsertDate = new DateTime(2025, 8, 21, 18, 34, 22, 813, DateTimeKind.Local).AddTicks(4189),
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 649, DateTimeKind.Local).AddTicks(4471),
+                            IsDeleted = false,
+                            RoleId = -1,
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 649, DateTimeKind.Local).AddTicks(4632),
                             IsDeleted = false,
                             RoleId = 1,
                             UserId = 1
+                        },
+                        new
+                        {
+                            Id = 3,
+                            InsertBy = 0,
+                            InsertDate = new DateTime(2025, 8, 26, 23, 38, 4, 649, DateTimeKind.Local).AddTicks(4770),
+                            IsDeleted = false,
+                            RoleId = 2,
+                            UserId = 2
                         });
                 });
 

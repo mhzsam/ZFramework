@@ -124,16 +124,16 @@ namespace Presentation.SetUp
 						ActionName = p.Action,
 						ActionMethod = p.ActionMethod,
 						InsertDate = DateTime.Now,
-						IsActivee = true,
+						IsActive = true,
 						Description = p.Description
 					};
 					permission.ComputeAndSetHash();
 					context.Permissions.Add(permission);
 				}
-				else if (!existing.IsActivee || existing.Description != p.Description)
+				else if (!existing.IsActive || existing.Description != p.Description)
 				{
 					// فعال‌سازی مجدد
-					existing.IsActivee = true;
+					existing.IsActive = true;
 					existing.UpdateDate = DateTime.Now;
 					existing.UpdateBy = -1;
 					existing.Description = p.Description;
@@ -158,7 +158,7 @@ namespace Presentation.SetUp
 						ActionMethod = p.ActionMethod,
 						UpdateDate = DateTime.Now,
 						UpdateBy = -1,
-						IsActivee = false,
+						IsActive = false,
 						Description = p.Description
 					};
 					permission.ComputeAndSetHash();

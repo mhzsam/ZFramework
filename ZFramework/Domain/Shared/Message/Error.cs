@@ -163,6 +163,7 @@ namespace Domain.Shared.Message
 			public const string Cancelled = "عملیات لغو شد";
 			public const string InvalidRequest = "درخواست نامعتبر";
 			public const string NotFound = " هیچ موردی یافت نشد";
+			public static string NotFoundByFeild(string fieldName) => $"{fieldName} یافت نشد";
 
 		}
 		#endregion
