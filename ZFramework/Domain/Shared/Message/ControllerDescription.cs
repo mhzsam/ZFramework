@@ -75,4 +75,9 @@
 		public const string GetActive = "گرفتن دسترسی‌های فعال نقش";
 		public const string GetPaged = "گرفتن دسترسی‌های نقش با صفحه‌بندی";
 	}
+    public static class Notification
+    {
+        public const string SendSms = "ارسال پیامک";
+        public const string SendEmail = "ارسال ایمیل";
+    }
 }

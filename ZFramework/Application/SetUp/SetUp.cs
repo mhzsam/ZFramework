@@ -1,8 +1,11 @@
 ﻿using Application.ApplicationService.AdminApplicationService;
 using Application.ApplicationService.CommonApplicationService;
+using Application.ApplicationService.NotificationApplicationService;
+using Application.DTO.Notification;
 using Application.DTO.Role;
 using Application.DTO.UserRole;
 using Application.Service.Base;
+using Application.Service.Notification;
 using Application.Service.PermissionService;
 using Application.Service.RolePermissionService;
 using Application.Service.RoleService;
@@ -40,15 +43,16 @@ namespace Application.SetUp
 			services.AddScoped<IUserRoleService, UserRoleService>();
 			services.AddScoped<IPermissionService, PermissionService>();
 			services.AddScoped<IRolePermissionService, RolePermissionService>();
+			services.AddScoped<INotificationApplicationService, NotificationApplicationService>();
 
-		}
+        }
 		private static void AddValidatorServices(this IServiceCollection services)
 		{
 			services.AddValidatorsFromAssemblyContaining<RoleDtoValidator>();
 			services.AddValidatorsFromAssemblyContaining<AddUserRoleDtoValidator>();
-
-
-		}
+			services.AddValidatorsFromAssemblyContaining<SendEmailDtoValidator>();
+			services.AddValidatorsFromAssemblyContaining<SendSmsDtoValidator>();
+        }
 		public static void AddCacheServices(this IServiceCollection services, CacheSettings cacheSettings)
 		{
 			if (string.Equals(cacheSettings?.Provider, "Redis", StringComparison.OrdinalIgnoreCase))
