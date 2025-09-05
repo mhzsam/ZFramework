@@ -63,6 +63,13 @@ namespace Domain.Shared.PersianFeildName
 			public const string UserId = "شناسه کاربر";
 			public const string User = "کاربر";
 		}
-	}
+
+        public static class Notification
+        {
+            public const string Recipient = "گیرنده";
+            public const string Template = "قالب پیغام";
+            public const string Parameters = "متغیر های قالب";
+        }
+    }
 }
 
